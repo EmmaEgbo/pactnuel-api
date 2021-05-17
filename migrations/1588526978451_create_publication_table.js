@@ -1,5 +1,6 @@
-module.exports = {
-    "up": "create table if not exists c_publication\n" +
+
+exports.up = async function(knex) {
+  await knex.raw("create table if not exists c_publication\n" +
       "(\n" +
       "\tID varchar(20) not null\n" +
       "\t\tprimary key,\n" +
@@ -28,6 +29,9 @@ module.exports = {
       "\tconstraint c_publication_logo_ID_fk\n" +
       "\t\tforeign key (LOGO) references c_file (ID)\n" +
       ");\n" +
-      "\n",
-    "down": "drop table c_publication;"
-}
+      "\n");  
+};
+
+exports.down = async function(knex) {
+  await knex.raw("drop table c_publication;")
+};
