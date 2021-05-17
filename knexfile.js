@@ -1,7 +1,8 @@
 // Update with your config settings.
-import {config} from "dotenv";
-config();
-export default {
+require('dotenv').config()
+// import {config} from "dotenv";
+// config();
+module.exports = {
 
   development: {
     client: process.env.DB_CONNECTION,
