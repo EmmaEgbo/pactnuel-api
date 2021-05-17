@@ -4,6 +4,8 @@ import crypto from "crypto";
 
 import nodemailer from "nodemailer";
 
+import mailGun from 'nodemailer-mailgun-transport';
+
 import ejs from "ejs";
 
 
@@ -14,6 +16,13 @@ import {config} from "dotenv";
 import {knex} from "../config/config";
 
 import _ from "lodash";
+
+import mailchimp from "@mailchimp/mailchimp_marketing";
+
+mailchimp.setConfig({
+  apiKey: process.env.MAILCHIMP_API_KEY,
+  server: process.env.MAILCHIMP_SERVER,
+});
 
 config();
 let helpers = {};
@@ -147,6 +156,31 @@ helpers.response = (code,status,message,data="") => {
   return response;
 };
 
+// MailChimp Subscription
+helpers.subscribeToMailList = async (firstName, lastName, email) => {
+  const listId = process.env.MAILCHIMP_LIST_ID;
+  const subscribingUser = {
+    firstName,
+    lastName,
+    email
+  };
+  
+  const response = await mailchimp.lists.addListMember(listId, {
+    email_address: subscribingUser.email,
+    status: "subscribed",
+    merge_fields: {
+      FNAME: subscribingUser.firstName,
+      LNAME: subscribingUser.lastName
+    }
+  });
+  
+    console.log(
+      `Successfully added contact as an audience member. The contact's id is ${
+        response.id
+      }.`
+    );
+};  
+
 //Send Promise Response
 helpers.promiseResponse = (status,data="") =>{
   let response = {};
@@ -158,25 +192,23 @@ helpers.promiseResponse = (status,data="") =>{
   response.data = data;
   return response;
 };
+
+// Email
+const auth = {
+  auth: {
+      api_key: process.env.MAIL_API_KEY,
+      domain: process.env.MAIL_DOMAIN,
+  }
+};
+
 helpers.sendEmail = async function (tomailID, mailSubject, templateName, dataSet, attachments=[]) {
-
-   const transporter = nodemailer.createTransport(
-      {
-        host: process.env.MAIL_HOST,
-        port: process.env.MAIL_PORT,
-        secure: false,
-        auth: {
-          user: process.env.MAIL_USERNAME, // generated ethereal user
-          pass: process.env.MAIL_PASSWORD // generated ethereal password
-        }
-      });
-
+  const transporter = nodemailer.createTransport(mailGun(auth));
   let emailData = {};
   emailData.data = dataSet;
   ejs.renderFile(`templates/emails/${templateName}.ejs`,emailData, function (err, data) {
     if (!err) {
       const mailOptions = {
-        from: process.env.MAIL_SENDER,
+        from: {name: process.env.MAIL_SENDER, address: process.env.MAIL_ADDRESS},
         to: `${tomailID}`,
         subject: `${mailSubject}`,
         html: data
@@ -184,8 +216,9 @@ helpers.sendEmail = async function (tomailID, mailSubject, templateName, dataSet
       if(attachments.length > 0){
         mailOptions.attachments = attachments;
       }
-      transporter.sendMail(mailOptions, function (error) {
+      transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
+          console.log(error)
           throw new Error(error);
         }else{
           return 'Email sent'
