@@ -9,8 +9,6 @@ import publication from "./PublicationController";
 import followModel from "../model/followModel";
 const md5 = require('md5');
 
-
-
 config();
 
 let user = {};
@@ -27,7 +25,6 @@ user.register = async (req,res) => {
     let facebookId = typeof (payload.GOOGLE_ID) === "string" && payload.GOOGLE_ID.trim().length > 0? payload.GOOGLE_ID : null;
     let googleId = typeof (payload.FACEBOOK_ID) === "string" && payload.FACEBOOK_ID.trim().length > 0? payload.FACEBOOK_ID : null;
     let role = typeof (payload.ROLE) === "object" && payload.ROLE.ROLES.length > 0? payload.ROLE : false;
-
     if(email && password && role && firstName && lastName && loginType){
       let userDetails = await userModel.getDetail(req, email);
       let userDetailsMobile = null;
@@ -58,7 +55,7 @@ user.register = async (req,res) => {
          //send email for verification
           let data = {"URL":process.env.FRONT_END_URL,"VERIFYLINK":process.env.FRONT_END_URL+'/verify?status=pending&email='+email+'&token='+token}
           helpers.sendEmail([email],
-            `Welcome to Pactunel!`,
+            `Welcome to PactNuel!`,
             'welcome',data);
           res.status(200).json(helpers.response("200", "success", "Please check Your Mailbox!"));
         }
@@ -90,10 +87,10 @@ user.login = async (req,res) => {
 
         if(userDetails != null){
           if(userDetails.EMAIL_VERIFY == 0){
-            res.status(200).json(helpers.response("200", "error", "Your Email is not verified.",{"action":"resendActivationEmail"}));
+            return res.status(200).json(helpers.response("200", "error", "Your Email is not verified.",{"action":"resendActivationEmail"}));
           }
           if(userDetails.STATUS == 0){
-            res.status(200).json(helpers.response("200", "error", "Your Profile is not active."));
+            return res.status(200).json(helpers.response("200", "error", "Your Profile is not active."));
           }
           else if(userDetails.PASSWORD.toUpperCase() == (md5(password)).toUpperCase()){
             let rowsData = {};
@@ -198,7 +195,11 @@ user.accountActivation = async (req,res) => {
          //Update User with verify 1
          let result = await userModel.accountActivation(email);
          if(result){
-           res.status(200).json(helpers.response("200", "success", "Your account has been verified! Please login now!"));
+          //  Add to mailing list
+            let userDetails = await userModel.getDetail(req, email);
+            const { NAME, LAST_NAME, EMAIL } = userDetails;
+            helpers.subscribeToMailList(NAME, LAST_NAME, EMAIL);
+            return res.status(200).json(helpers.response("200", "success", "Your account has been verified! Please login now!"));
          }
        }
        else{
