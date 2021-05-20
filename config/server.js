@@ -66,7 +66,7 @@ server.init = function(){
   //Starting HTTP Server
   if(process.env.HTTP_APP_PORT == "PRODUCTION"){
     try{
-      httpServer.listen(process.env.PORT, function () {
+      httpServer.listen(process.env.PORT, '127.0.0.1', function () {
         console.log(`Http Server Listening On Port : ${process.env.PORT}!`);
       });
     }
@@ -75,7 +75,7 @@ server.init = function(){
     }
   }
   else{
-    httpServer.listen(process.env.PORT, function () {
+    httpServer.listen(process.env.PORT, '127.0.0.1', function () {
       console.log(`Http Server Listening On Port : ${process.env.PORT}!`);
     });
   }
