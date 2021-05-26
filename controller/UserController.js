@@ -200,7 +200,7 @@ user.accountActivation = async (req,res) => {
             const { NAME, LAST_NAME, EMAIL } = userDetails;
             const data = {"NAME": `${NAME} ${LAST_NAME}`};
             helpers.sendEmail([email],
-              `Pactnuel`,
+              `Welcome to Pactnuel`,
               'welcome', data);
             helpers.subscribeToMailList(NAME, LAST_NAME, EMAIL);
             return res.status(200).json(helpers.response("200", "success", "Your account has been verified! Please login now!"));
