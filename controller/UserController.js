@@ -198,7 +198,7 @@ user.accountActivation = async (req,res) => {
           //  Add to mailing list
             let userDetails = await userModel.getDetail(req, email);
             const { NAME, LAST_NAME, EMAIL } = userDetails;
-            data = {"NAME": `${NAME} ${LAST_NAME}`};
+            const data = {"NAME": `${NAME} ${LAST_NAME}`};
             helpers.sendEmail([email],
               `Pactnuel`,
               'welcome', data);
@@ -248,8 +248,8 @@ user.forgotPasswordResendActivation = async (req,res) => {
           else {
             data = {"URL":process.env.FRONT_END_URL,"VERIFYLINK":process.env.FRONT_END_URL+'/verify?status=pending&email='+email+'&token='+token};
             helpers.sendEmail([email],
-              `Welcome to Pactunel!`,
-              'welcome',data);
+              `[Pactnuel] Verify your email address`,
+              'verification',data);
           }
 
           res.status(200).json(helpers.response("200", "success", "Please check your Mailbox!"));
