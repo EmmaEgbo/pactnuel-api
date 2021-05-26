@@ -53,10 +53,10 @@ user.register = async (req,res) => {
         let createdUser = await userModel.createUser(req,dataSet);
         if(createdUser != null){
          //send email for verification
-          let data = {"URL":process.env.FRONT_END_URL,"VERIFYLINK":process.env.FRONT_END_URL+'/verify?status=pending&email='+email+'&token='+token}
+          let data = {"URL":process.env.FRONT_END_URL,"VERIFYLINK":process.env.FRONT_END_URL+'/verify?status=pending&email='+email+'&token='+token, "NAME": `${firstName} ${lastName}`}
           helpers.sendEmail([email],
-            `Welcome to PactNuel!`,
-            'welcome',data);
+            `[Pactnuel] Verify your email address`,
+            'verification',data);
           res.status(200).json(helpers.response("200", "success", "Please check Your Mailbox!"));
         }
       }
@@ -198,6 +198,10 @@ user.accountActivation = async (req,res) => {
           //  Add to mailing list
             let userDetails = await userModel.getDetail(req, email);
             const { NAME, LAST_NAME, EMAIL } = userDetails;
+            data = {"NAME": `${NAME} ${LAST_NAME}`};
+            helpers.sendEmail([email],
+              `Pactnuel`,
+              'welcome', data);
             helpers.subscribeToMailList(NAME, LAST_NAME, EMAIL);
             return res.status(200).json(helpers.response("200", "success", "Your account has been verified! Please login now!"));
          }
@@ -229,16 +233,17 @@ user.forgotPasswordResendActivation = async (req,res) => {
     if(email && type){
       //check mobile and otp is correct or not
       let userDetails = await userModel.getDetail(req, email);
+      const { NAME, LAST_NAME } = userDetails;
       if(userDetails != null){
         let token = uniqid();
         let result = await userModel.updateToken(email,token);
         if(result){
           let data = '';
           if(type == 'FORGOT'){
-            data = {"URL":process.env.FRONT_END_URL,"VERIFYLINK":process.env.FRONT_END_URL+'/forgotpassword?status=pending&email='+email+'&token='+token};
+            data = {"URL":process.env.FRONT_END_URL,"VERIFYLINK":process.env.FRONT_END_URL+'/forgotpassword?status=pending&email='+email+'&token='+token, "NAME": `${NAME} ${LAST_NAME}`};
             helpers.sendEmail([email],
-              `Forgot Password!`,
-              'forgotpassword',data);
+              `[Pactnuel] Password Reset Request`,
+              'passwordreset', data);
           }
           else {
             data = {"URL":process.env.FRONT_END_URL,"VERIFYLINK":process.env.FRONT_END_URL+'/verify?status=pending&email='+email+'&token='+token};
