@@ -221,7 +221,7 @@ helpers.sendEmail = async function (tomailID, mailSubject, templateName, dataSet
           console.log(error)
           throw new Error(error);
         }else{
-          console.log(info, "sent")
+          console.log(info)
           return 'Email sent'
         }
       });
