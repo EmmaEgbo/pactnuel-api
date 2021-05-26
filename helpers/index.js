@@ -196,8 +196,8 @@ helpers.promiseResponse = (status,data="") =>{
 // Email
 const auth = {
   auth: {
-      api_key: process.env.MAIL_API_KEY,
-      domain: process.env.MAIL_DOMAIN,
+      api_key: process.env.MAILAPIKEY,
+      domain: process.env.MAILDOMAIN,
   }
 };
 
@@ -221,6 +221,7 @@ helpers.sendEmail = async function (tomailID, mailSubject, templateName, dataSet
           console.log(error)
           throw new Error(error);
         }else{
+          console.log(info, "sent")
           return 'Email sent'
         }
       });
