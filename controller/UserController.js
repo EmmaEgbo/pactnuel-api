@@ -246,7 +246,7 @@ user.forgotPasswordResendActivation = async (req,res) => {
               'passwordreset', data);
           }
           else {
-            data = {"URL":process.env.FRONT_END_URL,"VERIFYLINK":process.env.FRONT_END_URL+'/verify?status=pending&email='+email+'&token='+token};
+            data = {"URL":process.env.FRONT_END_URL,"VERIFYLINK":process.env.FRONT_END_URL+'/verify?status=pending&email='+email+'&token='+token, "NAME": `${NAME} ${LAST_NAME}`};
             helpers.sendEmail([email],
               `[Pactnuel] Verify your email address`,
               'verification',data);
