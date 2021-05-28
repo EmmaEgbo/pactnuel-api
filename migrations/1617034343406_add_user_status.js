@@ -1,7 +1,7 @@
-exports.up = async function(knex) {
-  await knex.raw("alter table c_user add STATUS char default 1 null;");
-};
-
-exports.down = async function(knex) {
-  await knex.raw("select * from c_user");
+module.exports = {
+  "up": function (conn, cb) {
+    conn.query ("alter table c_user add STATUS char default 1 null;", function (err, res) {
+        cb();
+    });},
+  "down": "select * from c_user"
 };
