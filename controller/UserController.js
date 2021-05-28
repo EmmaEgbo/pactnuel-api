@@ -392,6 +392,31 @@ user.updatePassword = async (req,res) => {
 
 };
 
+user.updateImage = async (req,res) => {
+  try{
+    let payload = req.body;
+    let image = typeof (payload.IMAGE) === "string" && payload.IMAGE.trim().length > 0 ? payload.IMAGE : false;
+    let currentPassword = typeof (payload.CURRENT_PASSWORD) === "string" && payload.CURRENT_PASSWORD.trim().length > 0 ? payload.CURRENT_PASSWORD : false;
+    let id = typeof (payload.ID) === "string" && payload.ID.trim().length > 0 ? payload.ID : false;
+    if(id){
+      let userDetails = await userModel.getDetailById(id);
+      if(userDetails != null){
+        let result = await userModel.updateUserData(req,req.body);
+        if(result){
+          res.status(200).json(helpers.response("200", "success", "Your Image has been changed successfully!"));
+        }
+      }
+    }
+    else{
+      res.status(200).json(helpers.response("200", "error", "Validation Error!"));
+    }
+  }catch (e) {
+    res.status(400).json(helpers.response("400", "error", "Something went wrong.",e.message));
+  }
+
+
+};
+
 
 
 

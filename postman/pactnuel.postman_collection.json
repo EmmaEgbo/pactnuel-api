@@ -1,0 +1,2229 @@
+{
+	"info": {
+		"_postman_id": "183d9be6-9e84-4c7f-a5a6-15feaf251d9f",
+		"name": "pactnuel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"EMAIL\":\"egboemmanuel1998@gmail.com\",\"PASSWORD\":\"admin\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/login?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"login"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Account Activation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"EMAIL\":\"manish.tapadar20@gmail.com\",\"TOKEN\":\"90wod15iak9n5leh9\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/accountActivation?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accountActivation"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Pssword Update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"EMAIL\":\"manish.tapadar20@gmail.com\",\"TOKEN\":\"90wod15m9k9n5yu2j\",\"PASSWORD\":\"123\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/forgotPassword?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"forgotPassword"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resend Activation LInk",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"EMAIL\":\"manish.tapadar20@gmail.com\",\"TYPE\":\"RESEND\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/forgotPasswordResendActivation?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"forgotPasswordResendActivation"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Passeord Email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"EMAIL\":\"manish.tapadar20@gmail.com\",\"TYPE\":\"FORGOT\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/forgotPasswordResendActivation?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"forgotPasswordResendActivation"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"FIRST_NAME\":\"Tamaghna\",\"LAST_NAME\":\"Banerjee\",\"SOURCE\":\"From Search Engine\",\"MOBILE\":\"8896944\",\"PASSWORD\":\"admin123\",\"EMAIL\":\"manish.tapadar20@gmail.com\",\"REGISTRATION_TYPE\":\"EMAIL\",\"ROLE\":{\"ROLES\":[\"user\"]}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/register?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"register"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"EMAIL\":\"egboemmanuel1998@gmail.com\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/userDetails?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"userDetails"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"filters\":{\"search\":[\n\t{\"FIELD_NAME\":\"c_user.ID\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"},\n\t{\"FIELD_NAME\":\"c_user.EMAIL\",\"FIELD_VALUE\":\"\",\"OPT\":\"LIKE\"},\n\t{\"FIELD_NAME\":\"c_user.NAME\",\"FIELD_VALUE\":\"\",\"OPT\":\"LIKE\"},\n\t{\"FIELD_NAME\":\"c_user.ROLE\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"},\n\t{\"FIELD_NAME\":\"c_user.LAST_NAME\",\"FIELD_VALUE\":\"\",\"OPT\":\"LIKE\"},\n\t{\"FIELD_NAME\":\"c_user.MOBILE\",\"SHOW_ON_MENU\":\"\",\"OPT\":\"=\"},\n\t\t{\"FIELD_NAME\":\"c_user.SOURCE\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"}\n\t],\"sortFilter\":\n\t{\"FIELD_NAME\":\"c_user.CREATED_AT\",\"SORT_ORDER\":\"ASC\"}}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/getAllUsers?_format=json&skip=0&take=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"getAllUsers"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								},
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"ID\":\"4zf4twkcv0780l\",\"STATUS\":\"1\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/updateUser?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"updateUser"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"ID\":\"4zf4twkcv0780l\",\"PASSWORD\":\"123456\",\"CURRENT_PASSWORD\":\"admin\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/updatePassword?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"updatePassword"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"ID\":\"4zf4twkcv0780l\",\"IMAGE\":\"123456\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/updateImage?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"updateImage"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "File",
+			"item": [
+				{
+					"name": "Upload File",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/manish/Desktop/annotated.jpeg"
+								}
+							],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/uploadFIle?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"uploadFIle"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Create Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"NAME\":\"TEST\",\n\t\"IMAGE_ID\":\"4zffvxk9ivb4z6\",\n\t\"DESCRIPTION\":\"TEst Desc\",\n\t\"USED_IN\":{\"USED_IN\":[\"BLOG\",\"BOOK\"]}\n\n\t\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/addCategory?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"addCategory"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Category",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/getAllCategory?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"getAllCategory"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Category",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/getCategory/4zfopek9l6zdc8?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"getCategory",
+								"4zfopek9l6zdc8"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"NAME\":\"TESaT\",\n\t\"IMAGE_ID\":\"4zffvxk9ivb4z6\",\n\t\"DESCRIPTION\":\"TEst Desc\",\n\t\"USED_IN\":{\"USED_IN\":[\"BLOG\",\"BOOK\"]}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/updateCategory/90wodkmnk9ivjodu?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"updateCategory",
+								"90wodkmnk9ivjodu"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Blog",
+			"item": [
+				{
+					"name": "Create Blog",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"TITLE\":\"Pactnuel Story\",\"AUTHOR_BY\":\"90wod15iak9n5jsk5\",\"DESCRIPTION\":\"Pactnuel Story description\",\"STATUS\":\"DRAFT\",\"PUBLICATION\":\"\",\"FEATURE_MEDIA\":{\"type\":\"simpleImage\",\"data\":{\"url\":\"https://admissions.collegify.com/static/images/admissions/tarang-singhal.png\",\"caption\":\"\",\"withBorder\":false,\"withBackground\":false,\"stretched\":false},\"isSelected\":true},\"CONTENT\":{\"time\":1588840345125,\"blocks\":[{\"type\":\"paragraph\",\"data\":{\"text\":\"asdasdasdasdasd\"},\"isSelected\":false},{\"type\":\"simpleImage\",\"data\":{\"url\":\"https://admissions.collegify.com/static/images/admissions/tarang-singhal.png\",\"caption\":\"\",\"withBorder\":false,\"withBackground\":false,\"stretched\":false},\"isSelected\":true}],\"version\":\"2.17.0\"},\"TAGS\":[{\"id\":\"4zflkjk9wia3hp\",\"text\":\"pactnuel\"}],\"CATEGORIES\":[]}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/addBlog?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"addBlog"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Blog",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"filters\":{\"search\":[{\"FIELD_NAME\":\"c_blog.ID\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"},{\"FIELD_NAME\":\"c_blog.TITLE\",\"FIELD_VALUE\":\"\",\"OPT\":\"LIKE\"},{\"FIELD_NAME\":\"c_blog.DESCRIPTION\",\"FIELD_VALUE\":\"\",\"OPT\":\"LIKE\"},{\"FIELD_NAME\":\"c_blog.STATUS\",\"FIELD_VALUE\":\"PUBLISHED\",\"OPT\":\"LIKE\"},{\"FIELD_NAME\":\"c_blog.AUTHOR_BY\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"},{\"FIELD_NAME\":\"c_blog.PUBLICATION\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"},{\"FIELD_NAME\":\"c_blog.CREATED_AT\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"},{\"FIELD_NAME\":\"c_blog_category.CATEGORY_ID\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"},{\"FIELD_NAME\":\"c_blog.TOP\",\"FIELD_VALUE\":true,\"OPT\":\"<>\"},{\"FIELD_NAME\":\"c_blog.FEATURED\",\"FIELD_VALUE\":true,\"OPT\":\"<>\"},{\"FIELD_NAME\":\"c_blog_tag.TAG_ID\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"}],\"sortFilter\":{\"FIELD_NAME\":\"c_blog.CREATED_AT\",\"SORT_ORDER\":\"ASC\"}}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/getAllBlog?_format=json&skip=15&take=5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"getAllBlog"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								},
+								{
+									"key": "skip",
+									"value": "15"
+								},
+								{
+									"key": "take",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Blog",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/getBlog/Building-A-Facial-Recognition-Web-Application-With-React?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"getBlog",
+								"Building-A-Facial-Recognition-Web-Application-With-React"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Related Blogs",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/relatedBlogs/Internet-of-Things-Perfecting-your-Venture-as-an-Entrepreneur?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"relatedBlogs",
+								"Internet-of-Things-Perfecting-your-Venture-as-an-Entrepreneur"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Blog",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/searchBlogs/pe?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"searchBlogs",
+								"pe"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Picked Blog for an User (Logged In User)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/pickedBlogs?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pickedBlogs"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Blog",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"TITLE\":\"Manish Test\",\n\t\"AUTHOR_BY\":\"qweredsxcd\",\n\t\"DESCRIPTION\":\"\",\n\t\"STATUS\":\"DRAFT\",\n\t\"PUBLICATION\":\"\",\n\t\"FEATURE_MEDIA\":{\"IMAGE\":\"https://gogle.com\"},\n\t\"CONTENT\":{\"IMAGE\":\"https://gogle.com\"},\n\t\"CATEGORIES\":[\"4zfopek9lb2onr\"],\n\t\"TAGS\":[\"4zfopek9l74qaa\",\"4zfopek9lbc3vi\"]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/updateBlog/90woduxbk9l9fwdp?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"updateBlog",
+								"90woduxbk9l9fwdp"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Top Blog",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/markTopBlog/4zfh98k9y0tccn?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"markTopBlog",
+								"4zfh98k9y0tccn"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Featured Blog",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/markFeaturedBlog/4zfh98k9y0tccn?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"markFeaturedBlog",
+								"4zfh98k9y0tccn"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Blog views",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/updateViewsCount/asdasdasd?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"updateViewsCount",
+								"asdasdasd"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Publication",
+			"item": [
+				{
+					"name": "Create Publication",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"TITLE\":\"Test Publication\",\n\t\"AUTHOR_BY\":\"qweredsxcd\",\n\t\"DESCRIPTION\":\"Test\",\n\t\"STATUS\":\"ACTIVE\",\n\t\"LOGO\":\"4zfe6yk9sbgqh9\",\n\t\"AVATAR\":\"4zfe6yk9sbgqh9\",\n\t\"TAG_LINE\":\"Test Tagline\",\n\t\"FACEBOOK_INFO\":\"https://gogle.com\",\n\t\"EMAIL_INFO\":\"https://gogle.com\",\n\t\"TWITTER_INFO\":\"https://gogle.com\",\n\t\"INSTAGRAM_INFO\":\"https://gogle.com\",\n\t\"WRITERS\":[{\"USER_ID\":\"4zfd2qk9lkni81\",\"TYPE\":\"WRITER\"},{\"USER_ID\":\"4zfdb5k9lmu1i1\",\"TYPE\":\"WRITER\"}]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/addPublication?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"addPublication"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Publication",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"filters\":{\"search\":[\n\t{\"FIELD_NAME\":\"c_publication.ID\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"},\n\t{\"FIELD_NAME\":\"c_publication.TITLE\",\"FIELD_VALUE\":\"\",\"OPT\":\"LIKE\"},\n\t{\"FIELD_NAME\":\"c_publication.DESCRIPTION\",\"FIELD_VALUE\":\"\",\"OPT\":\"LIKE\"},\n\t{\"FIELD_NAME\":\"c_publication.STATUS\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"},\n\t{\"FIELD_NAME\":\"c_publication.CREATED_AT\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"},\n\t{\"FIELD_NAME\":\"c_publication.CATEGORY_ID\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"},\n\t\t{\"FIELD_NAME\":\"c_publication.SHOW_ON_MENU\",\"FIELD_VALUE\":\"1\",\"OPT\":\"=\"},\n\t\t{\"FIELD_NAME\":\"c_publication.TAG_ID\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"}\n\t],\"sortFilter\":\n\t{\"FIELD_NAME\":\"c_publication.CREATED_AT\",\"SORT_ORDER\":\"ASC\"}}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/getAllPublication?_format=json&skip=0&take=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"getAllPublication"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								},
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Publiction",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/getPublication/Collegify?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"getPublication",
+								"Collegify"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users Publications",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/getUsersPublication/90wodwxok9ljtv77?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"getUsersPublication",
+								"90wodwxok9ljtv77"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Publication",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"TITLE\":\"Collegify\",\"DESCRIPTION\":\"New Collegify Tagline\",\"TAG_LINE\":\"New Collegify Tagline\",\"AVATAR\":\"4zf8dxkbep4k3a\",\"LOGO\":\"4zf8dxkbep4k3a\",\"FACEBOOK_INFO\":\"https://gmail.com\",\"EMAIL_INFO\":\"contact@gmail.com\",\"TWITTER_INFO\":\"aroa@gmail.com\",\"INSTAGRAM_INFO\":\"https://gmail.com\",\"AUTHOR_BY\":\"90wodwxok9ljtv77\",\"STATUS\":\"ACTIVE\",\"WRITERS\":[{\"id\":\"4zflv8k9n7t06g\",\"USER_ID\":\"4zflv8k9n7t06g\",\"text\":\"Arunima Seth(arunimaseth2@gmail.com)\",\"TYPE\":\"WRITER\"},{\"id\":\"4zfe1yk9n31ce1\",\"USER_ID\":\"4zfe1yk9n31ce1\",\"text\":\"Manish Tapadar(manish@ytyt.com)\",\"TYPE\":\"WRITER\"}]}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/updatePublication/4zf8dxkbep5876?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"updatePublication",
+								"4zf8dxkbep5876"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Writer From Publication(uid/pid)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/removePublication/90wodwxok9ljtv77/3pi8si6gk9so1r78?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"removePublication",
+								"90wodwxok9ljtv77",
+								"3pi8si6gk9so1r78"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Publication on Menu",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/menuPublication/3pi8si6gk9so1r78?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"menuPublication",
+								"3pi8si6gk9so1r78"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Create Comments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"BLOG_ID\":\"4zf6nzkd0eaybe\",\n\t\"COMMENT\":\"Test C\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/addComment?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"addComment"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Comments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"filters\":{\"search\":[\n\t{\"FIELD_NAME\":\"c_blog_comments.ID\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"},\n\t{\"FIELD_NAME\":\"c_blog_comments.BLOG_ID\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"},\n\t{\"FIELD_NAME\":\"c_blog_comments.STATUS\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"},\n\t{\"FIELD_NAME\":\"c_blog_comments.CREATED_BY\",\"FIELD_VALUE\":\"\",\"OPT\":\"=\"}\n\t],\"sortFilter\":\n\t{\"FIELD_NAME\":\"c_blog_comments.WEIGHT\",\"SORT_ORDER\":\"ASC\"}}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/getAllComment?_format=json&skip=0&take=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"getAllComment"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								},
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Comments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"COMMENT\":\"Test D\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/updateComment/9d09p7lgtke37k6vp?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"updateComment",
+								"9d09p7lgtke37k6vp"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"STATUS\":\"ARCHIVED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/changeStatus/9d09p7lgtke37k6vp?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"changeStatus",
+								"9d09p7lgtke37k6vp"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Tags",
+			"item": [
+				{
+					"name": "Create/Update Tags",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"NAME\":\"TEST1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/addUpdateTags?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"addUpdateTags"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Tags",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/getAllTags?_format=json&name=Ar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"getAllTags"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								},
+								{
+									"key": "name",
+									"value": "Ar"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Tag",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/getTags/90wod4c9k9cuei0v?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"getTags",
+								"90wod4c9k9cuei0v"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Follow",
+			"item": [
+				{
+					"name": "Follow Blog",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/follow/blog/4zf4zokbjv0pgq?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"follow",
+								"blog",
+								"4zf4zokbjv0pgq"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Follow Publication",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/follow/publication/4zf8dxkbep5876?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"follow",
+								"publication",
+								"4zf8dxkbep5876"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Follow Author",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/follow/author/qweredsxcd?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"follow",
+								"author",
+								"qweredsxcd"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Follow Categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/follow/category/4zfopek9l6zdc8?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"follow",
+								"category",
+								"4zfopek9l6zdc8"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Followed Blog",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/follow/blog/90wodwxok9ljtv77?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"follow",
+								"blog",
+								"90wodwxok9ljtv77"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Followed Publication",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/follow/publication/90wodwxok9ljtv77?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"follow",
+								"publication",
+								"90wodwxok9ljtv77"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Followed Author",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/follow/author/4zfmftkcyes1ad?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"follow",
+								"author",
+								"4zfmftkcyes1ad"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Followed Categories",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/follow/category/90wodwxok9ljtv77?_format=json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"follow",
+								"category",
+								"90wodwxok9ljtv77"
+							],
+							"query": [
+								{
+									"key": "_format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

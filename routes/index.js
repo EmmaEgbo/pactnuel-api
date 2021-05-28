@@ -27,6 +27,7 @@ router.route("/forgotPassword").post(middleware.checkFormatKey,userController.fo
 router.route("/getAllUsers").post(middleware.checkFormatKey,userController.getAllUsers);
 router.route("/updateUser").put(middleware.checkUserAuth,userController.updateUser);
 router.route("/updatePassword").put(middleware.checkUserAuth,userController.updatePassword);
+router.route("/updateImage").put(middleware.checkUserAuth,userController.updateImage);
 
 
 
