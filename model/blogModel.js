@@ -75,6 +75,7 @@ exports.createBlog = async (context,dataset) => {
       CONTENT:dataset.CONTENT,
       STATUS:dataset.STATUS,
       ALIAS:dataset.ALIAS,
+      UPDATED_AT:new Date()
     }]);
 
     for(let i=0; i< dataset.CATEGORIES.length; i++){
@@ -103,7 +104,12 @@ exports.createBlog = async (context,dataset) => {
 };
 
 exports.updateBlog = async (context,id,dataset) => {
-
+  if (dataset.STATUS === 'DELETED') {
+    await knex('c_blog').where({
+      ID: id
+    }).delete();
+    return {"ID":id,"ALIAS":dataset.ALIAS};
+  }
   const trx =  await knex.transaction();
   try {
     dataset.ALIAS = await blogModel.generateAlias(dataset.TITLE,id);
@@ -186,6 +192,7 @@ exports.updateBlog = async (context,id,dataset) => {
 };
 
 exports.getAll = async (req, skip, take, filters) => {
+  console.log(skip, take, filters)
   try {
     let data = {};
     let userId = 0;
@@ -217,7 +224,8 @@ exports.getAll = async (req, skip, take, filters) => {
           .on('c_user.ID', 'c_user_followed_authors.AUTHOR_ID')
           .onIn('c_user_followed_authors.AUTHOR_ID',[userId])
       })
-      .where({ });
+      .where({'c_blog.STATUS':'PUBLISHED'})
+      .orderBy('c_blog.CREATED_AT', 'desc');
 
     if (filters) {
       query = blogModel.generateFilters(query, filters);
@@ -467,6 +475,7 @@ exports.relatedBlogs = async (req,alias) => {
           .on('c_user.ID', 'c_user_followed_authors.AUTHOR_ID')
           .onIn('c_user_followed_authors.AUTHOR_ID',[userId])
       })
+      .whereNot({'c_blog.ALIAS':alias})
       .where({'c_blog.AUTHOR_BY':blogDetails.AUTHOR_BY,'c_blog.STATUS':'PUBLISHED'}).orderByRaw('RAND()').limit(5);
 
     let data = await query.distinct(
