@@ -60,8 +60,7 @@ blog.getBlog = async (req,res) => {
       return;
     }
     let getDetials = await blogModel.getDetail(req,req.params.alias);
-
-    if(getDetials != null){
+    if(getDetials != null && (getDetials.STATUS) === 'PUBLISHED'){
       res.status(200).json(helpers.response("200", "success", "Fetch Successful",getDetials));
     }
     else{
