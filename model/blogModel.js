@@ -192,7 +192,6 @@ exports.updateBlog = async (context,id,dataset) => {
 };
 
 exports.getAll = async (req, skip, take, filters) => {
-  console.log(skip, take, filters)
   try {
     let data = {};
     let userId = 0;
@@ -224,7 +223,7 @@ exports.getAll = async (req, skip, take, filters) => {
           .on('c_user.ID', 'c_user_followed_authors.AUTHOR_ID')
           .onIn('c_user_followed_authors.AUTHOR_ID',[userId])
       })
-      .where({'c_blog.STATUS':'PUBLISHED'})
+      .whereNot('c_blog.STATUS','DELETED')
       .orderBy('c_blog.CREATED_AT', 'desc');
 
     if (filters) {
