@@ -38,6 +38,33 @@ follow.followBlog = async (req,res) => {
 
 };
 
+follow.likeBlog = async (req,res) => {
+  try{
+    if (!req.params.id) {
+      res.status(400);
+      res.end();
+      return;
+    }
+    let getDetails = await blogModel.getDetailById(req.params.id);
+    if(getDetails != null && getDetails.STATUS  == 'PUBLISHED'){
+      let status = await followModel.likeBlog(req, req.params.id);
+      if(status != null){
+        res.status(200).json(helpers.response("200", "success", "Liked Successfully!",status));
+      }
+      else{
+        res.status(200).json(helpers.response("200", "error", "Liking is not possible!"));
+      }
+    }
+    else{
+      res.status(200).json(helpers.response("200", "error", "Blog doesn't exists!"));
+    }
+  }
+  catch (e) {
+    res.status(400).json(helpers.response("400", "error", "Something went wrong."));
+  }
+
+};
+
 follow.followPublication = async (req,res) => {
   try{
     if (!req.params.id) {
@@ -140,6 +167,34 @@ follow.getFollowedBlog = async (req,res) => {
     }
     else{
       res.status(200).json(helpers.response("200", "error", "User doesn't exists!"));
+    }
+  }
+  catch (e) {
+    res.status(400).json(helpers.response("400", "error", "Something went wrong.",e.message));
+  }
+
+};
+
+follow.getBlogLikeCount = async (req,res) => {
+  try{
+    if (!req.params.id) {
+      res.status(400);
+      res.end();
+      return;
+    }
+    
+    let getDetails = await blogModel.getDetailById(req.params.id);
+    if(getDetails != null){
+      let result = await followModel.getBlogLikeCount(req.params.id);
+      if(result != null){
+        res.status(200).json(helpers.response("200", "success", "Fetch Successfully!", result));
+      }
+      else{
+        res.status(200).json(helpers.response("200", "error", "Fetch is not possible!"));
+      }
+    }
+    else{
+      res.status(200).json(helpers.response("200", "error", "Blog doesn't exists!"));
     }
   }
   catch (e) {

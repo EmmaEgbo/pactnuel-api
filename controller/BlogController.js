@@ -230,16 +230,86 @@ blog.markFeatured = async (req,res) => {
 
 };
 
-blog.updateViewsCount = async (req,res) => {
+blog.getViewsCount = async (req,res) => {
   try{
     if (!req.params.alias) {
       res.status(400);
       res.end();
       return;
     }
-    let getDetails = await blogModel.getDetail(req.params.alias);
+    let getDetails = await blogModel.getDetail(req, req.params.alias);
+    if (getDetails != null && getDetails.STATUS  == 'PUBLISHED'){
+      res.status(200).json(helpers.response("200", "success", "Fetch Successful", getDetails.VIEWS));
+    }
+    else {
+      res.status(200).json(helpers.response("200", "error", "Fetch is not possible!"));
+    }
+  }
+  catch (e) {
+    res.status(400).json(helpers.response("400", "error", "Something went wrong."));
+  }
+
+};
+
+blog.updateViewsCount= async (req,res) => {
+  try{
+    if (!req.params.alias) {
+      res.status(400);
+      res.end();
+      return;
+    }
+    let getDetails = await blogModel.getDetail(req, req.params.alias);
     if(getDetails != null && getDetails.STATUS  == 'PUBLISHED'){
       let status = await blogModel.updateViewsCount(req.params.alias,getDetails.VIEWS);
+      if(status != null){
+        res.status(200).json(helpers.response("200", "success", "Updated Successfully!"));
+      }
+      else{
+        res.status(200).json(helpers.response("200", "error", "Update is not possible!"));
+      }
+    }
+    else{
+      res.status(200).json(helpers.response("200", "error", "Blog doesn't exists!"));
+    }
+  }
+  catch (e) {
+    res.status(400).json(helpers.response("400", "error", "Something went wrong."));
+  }
+
+};
+
+blog.getLikesCount = async (req,res) => {
+  try{
+    if (!req.params.alias) {
+      res.status(400);
+      res.end();
+      return;
+    }
+    let getDetails = await blogModel.getDetail(req, req.params.alias);
+    if (getDetails != null && getDetails.STATUS  == 'PUBLISHED'){
+      res.status(200).json(helpers.response("200", "success", "Fetch Successful", getDetails.likes));
+    }
+    else {
+      res.status(200).json(helpers.response("200", "error", "Fetch is not possible!"));
+    }
+  }
+  catch (e) {
+    res.status(400).json(helpers.response("400", "error", "Something went wrong."));
+  }
+
+};
+
+blog.updateLikesCount= async (req,res) => {
+  let OP = req.body.OP;
+  try{
+    if (!req.params.alias) {
+      res.status(400);
+      res.end();
+      return;
+    }
+    let getDetails = await blogModel.getDetail(req, req.params.alias);
+    if(getDetails != null && getDetails.STATUS  == 'PUBLISHED'){
+      let status = await blogModel.updateLikesCount(req.params.alias,getDetails.likes, OP);
       if(status != null){
         res.status(200).json(helpers.response("200", "success", "Updated Successfully!"));
       }
