@@ -57,7 +57,10 @@ router.route("/searchBlogs/:searchText").get(middleware.adjustUserAuth,blogContr
 router.route("/pickedBlogs").get(middleware.adjustUserAuth,blogController.pickedBlogs);
 router.route("/markTopBlog/:id").put(middleware.checkUserAuth,blogController.markTop);
 router.route("/markFeaturedBlog/:id").put(middleware.checkUserAuth,blogController.markFeatured);
-router.route("/updateViewsCount/:alias").put(middleware.checkUserAuth,blogController.updateViewsCount);
+router.route("/getViewsCount/:alias").get(blogController.getLikesCount);
+router.route("/getLikesCount/:alias").get(blogController.getViewsCount);
+router.route("/updateViewsCount/:alias").put(blogController.updateViewsCount);
+router.route("/updateLikesCount/:alias").put(blogController.updateLikesCount);
 
 
 //publication API
@@ -71,10 +74,12 @@ router.route("/menuPublication/:publicationId").put(middleware.checkUserAuth,pub
 
 //user followed
 router.route("/follow/blog/:id").post(middleware.checkUserAuth,followController.followBlog);
+router.route("/like/blog/:id").post(middleware.checkUserAuth,followController.likeBlog);
 router.route("/follow/publication/:id").post(middleware.checkUserAuth,followController.followPublication);
 router.route("/follow/author/:id").post(middleware.checkUserAuth,followController.followAuthor);
 router.route("/follow/category/:id").post(middleware.checkUserAuth,followController.followCategory);
 router.route("/follow/blog/:id").get(middleware.checkUserAuth,followController.getFollowedBlog);
+router.route("/like/blog/:id").get(followController.getBlogLikeCount);
 router.route("/follow/publication/:id").get(middleware.checkUserAuth,followController.getFollowedPublication);
 router.route("/follow/author/:id").get(middleware.checkUserAuth,followController.getFollowedAuthor);
 router.route("/follow/category/:id").get(middleware.checkUserAuth,followController.getFollowedCategories);
