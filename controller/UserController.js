@@ -154,7 +154,7 @@ user.getDetails = async (req,res) => {
         //get followers
 
         //get blog written
-        let totalBCount = await followModel.getFollowedBlogsCount(userDetails.ID);
+        let totalBCount = await followModel.getBlogPostedCount(userDetails.ID);
         userDetails.TOTAL_BLOG = totalBCount[0].COUNT;
 
         //get followed publication
