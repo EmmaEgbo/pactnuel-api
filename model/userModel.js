@@ -16,7 +16,7 @@ exports.getDetail = async (req, email) => {
       .leftJoin('c_user_followed_authors', function () {
         this
           .on('c_user.ID', 'c_user_followed_authors.AUTHOR_ID')
-          .onIn('c_user_followed_authors.AUTHOR_ID',[userId])
+          .onIn('c_user_followed_authors.USER_ID',[userId])
       })
       .from('c_user').where({ "c_user.EMAIL": email}).limit(1);
     if (result.length == 0) {
