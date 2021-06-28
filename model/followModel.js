@@ -36,6 +36,39 @@ exports.followBlog = async (req ,id) => {
 
 };
 
+exports.likeBlog = async (req ,id) => {
+  try{
+    let userId = req.mwValue.auth.ID;
+    let status;
+    let exists =  await knex.select('c_blog_likes.*')
+      .from('c_blog_likes')
+      .where({ "USER_ID": userId, "BLOG_ID":id}).limit(1);
+
+    if(exists.length > 0){
+      //delete
+      await knex('c_blog_likes').where({ "USER_ID": userId, "BLOG_ID":id}).delete();
+      status = 'deleted';
+
+    }
+    else{
+      //create
+      let dataset = {};
+      dataset.ID = uniqid();
+      dataset.BLOG_ID = id;
+      dataset.USER_ID = userId;
+      await knex('c_blog_likes').insert([dataset]);
+      status = 'added';
+    }
+
+    return status;
+
+  }catch (e) {
+    return e;
+  }
+
+
+};
+
 exports.followPublication = async (req ,id) => {
   try{
     let userId = req.mwValue.auth.ID;
@@ -174,6 +207,29 @@ exports.getFollowedBlogsCount = async (userId) => {
     return e;
   }
 
+};
+
+exports.getBlogPostedCount = async (userId) => {
+  try {
+    let query = knex.from('c_blog')
+      .where({'c_blog.STATUS':"PUBLISHED",'c_blog.AUTHOR_BY' :userId });
+      await query.count({ 'COUNT': 'c_blog.ID' })
+    return await query.count({ 'COUNT': 'c_blog.ID' });
+  }
+  catch (e) {
+    return e;
+  }
+};
+
+exports.getBlogLikeCount = async (blogId) => {
+  try {
+    let query = knex.from('c_blog_likes')
+      .where({'c_blog_likes.BLOG_ID' : blogId });
+    return await query.count({ 'COUNT': 'c_blog_likes.ID' });
+  }
+  catch (e) {
+    return e;
+  }
 };
 
 exports.getFollowedAuthor = async (req, userId, skip, take) => {
