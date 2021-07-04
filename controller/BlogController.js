@@ -59,11 +59,12 @@ blog.getBlog = async (req,res) => {
       res.end();
       return;
     }
+
     let getDetials = await blogModel.getDetail(req,req.params.alias);
     if(getDetials != null && ((getDetials.STATUS) === 'PUBLISHED' || (getDetials.STATUS) === 'DRAFT')){
       res.status(200).json(helpers.response("200", "success", "Fetch Successful",getDetials));
     }
-    else{
+    else {
       res.status(200).json(helpers.response("200", "error", "Fetch is not possible!"));
     }
   }
