@@ -4,8 +4,8 @@ exports.up = async function(knex) {
         t.string('ID', 20).primary();
         t.string('BLOG_ID', 20).notNullable();
         t.string('USER_ID', 20).notNullable();
-        t.foreign('BLOG_ID').references('ID').inTable('c_blog');
-        t.foreign('USER_ID').references('ID').inTable('c_user');
+        t.foreign('BLOG_ID').references('ID').inTable('c_blog').onDelete('CASCADE');
+        t.foreign('USER_ID').references('ID').inTable('c_user').onDelete('CASCADE');
     });
 };
 
