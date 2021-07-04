@@ -378,7 +378,6 @@ blog.pickedBlogs = async (req,res) => {
     let data = [];
     if(userId != 0){
       data = await blogModel.pickedBlogs(req, userId);
-      console.log(data);
     }
     if (data != null) {
       res.status(200).json(helpers.response("200", "success", "Fetch Successful", data));
