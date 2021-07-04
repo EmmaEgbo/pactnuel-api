@@ -593,7 +593,7 @@ exports.pickedBlogs = async (req,userId) => {
           .onIn('c_user_followed_authors.USER_ID',[userId])
       })
       .where({'c_blog.STATUS':'PUBLISHED'})
-      .where(function() {this.whereIn('c_blog.PUBLICATION_ID',publication).orWhere('c_blog.AUTHOR_BY','IN',author).orWhere('c_blog_category.CATEGORY_ID','IN',categories)})
+      .where(function() {this.whereIn('c_blog.PUBLICATION',publication).orWhere('c_blog.AUTHOR_BY','IN',author).orWhere('c_blog_category.CATEGORY_ID','IN',categories)})
       .orderByRaw('RAND()').limit(5);
 
     let data = await query.distinct(
