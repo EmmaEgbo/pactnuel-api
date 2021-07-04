@@ -60,7 +60,7 @@ blog.getBlog = async (req,res) => {
       return;
     }
     let getDetials = await blogModel.getDetail(req,req.params.alias);
-    if(getDetials != null && (getDetials.STATUS) === 'PUBLISHED'){
+    if(getDetials != null && ((getDetials.STATUS) === 'PUBLISHED' || (getDetials.STATUS) === 'DRAFT')){
       res.status(200).json(helpers.response("200", "success", "Fetch Successful",getDetials));
     }
     else{
@@ -377,6 +377,7 @@ blog.pickedBlogs = async (req,res) => {
     let data = [];
     if(userId != 0){
       data = await blogModel.pickedBlogs(req, userId);
+      console.log(data);
     }
     if (data != null) {
       res.status(200).json(helpers.response("200", "success", "Fetch Successful", data));
