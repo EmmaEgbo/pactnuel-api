@@ -155,7 +155,7 @@ exports.updateBlog = async (context,id,dataset) => {
       await trx('c_blog_category').insert([{
         ID: uniqid(),
         BLOG_ID:id,
-        CATEGORY_ID:currentCategories[p],
+        CATEGORY_ID:currentCategories[p].id,
       }]);
     }
 
