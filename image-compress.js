@@ -9,6 +9,8 @@ const patterns = ['./files/*jpeg', './files/*jpg', './files/*png'];
 
 var files = globArray.sync(patterns);
 
+console.log(files);
+
 fs.access(output_path, (error) => {
     if (error) {
       fs.mkdirSync(output_path);
