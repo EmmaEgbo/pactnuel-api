@@ -9,7 +9,7 @@ const patterns = ['./files/*jpg'];
 
 var files = globArray.sync(patterns);
 
-console.log(files);
+console.log(files.length);
 
 fs.access(output_path, (error) => {
     if (error) {
@@ -20,8 +20,8 @@ fs.access(output_path, (error) => {
 console.log(files.length);
 
 files.forEach(function(inputFile) {
-    fs.access(path, function (error) {
-        if (!error) {
+    fs.access(inputFile, function (error) {
+        if (error) {
             const image = sharp(inputFile);
             image
             .metadata()
@@ -33,7 +33,7 @@ files.forEach(function(inputFile) {
                 console.log(inputFile)
                 throw err;
             });
-            console.log('done');
+            // console.log('done');
         }
     });
 });
