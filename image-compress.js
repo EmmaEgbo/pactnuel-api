@@ -18,7 +18,7 @@ fs.access(output_path, (error) => {
 });
 
 files.forEach(function(inputFile) {
-    fs.access('./files/resizedJpg' + inputFile.slice(8), function (error) {
+    fs.access('./files/resizedJpg/' + inputFile.slice(8), function (error) {
         if (error) {
             const image = sharp(inputFile);
             image
