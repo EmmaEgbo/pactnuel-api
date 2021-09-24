@@ -3,9 +3,9 @@ const path = require('path');
 const globArray = require("glob-array")
 const sharp = require('sharp');
 
-const output_path = path.join(`${__dirname}/files/resized`);
+const output_path = path.join(`${__dirname}/files/resizedJpeg`);
 
-const patterns = ['./files/*jpg'];
+const patterns = ['./files/*jpeg'];
 
 var files = globArray.sync(patterns);
 
@@ -17,6 +17,8 @@ fs.access(output_path, (error) => {
     }
 });
 
+console.log(files.length);
+
 files.forEach(function(inputFile) {
     const image = sharp(inputFile);
     image
@@ -24,7 +26,7 @@ files.forEach(function(inputFile) {
     .then(function(metadata) {
             return image
             .jpeg({ mozjpeg: true })
-            .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile))+'.jpg'))
+            .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile))+'.jpeg'))
     }).catch(err => {
         console.log(inputFile)
         throw err;
