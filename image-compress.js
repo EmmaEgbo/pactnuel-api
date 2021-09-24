@@ -17,10 +17,8 @@ fs.access(output_path, (error) => {
     }
 });
 
-console.log(files.length);
-
 files.forEach(function(inputFile) {
-    fs.access(inputFile, function (error) {
+    fs.access('./files/resizedJpg' + inputFile.slice(8), function (error) {
         if (error) {
             const image = sharp(inputFile);
             image
@@ -33,9 +31,11 @@ files.forEach(function(inputFile) {
                 console.log(inputFile)
                 throw err;
             });
-            // console.log('done');
+            console.log('not available');
+        } else {
+            console.log('available');
         }
-    });
+    })
 });
 
 console.log('All images Resized')
