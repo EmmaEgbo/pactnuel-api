@@ -5,7 +5,7 @@ const sharp = require('sharp');
 
 const output_path = path.join(`${__dirname}/files/resized`);
 
-const patterns = ['./files/*jpeg'];
+const patterns = ['./files/*jpg'];
 
 var files = globArray.sync(patterns);
 
@@ -22,16 +22,9 @@ files.forEach(function(inputFile) {
     image
     .metadata()
     .then(function(metadata) {
-        if (metadata.format === 'jpeg') {
             return image
             .jpeg({ mozjpeg: true })
-            .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile))+'.jpeg'))
-        }
-        else if (metadata.format === 'png') {
-            return image
-            .png({ palette: true, quality: 80 })
-            .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile))+'.png'))
-        }
+            .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile))+'.jpg'))
     }).catch(err => {
         console.log(inputFile)
         throw err;
