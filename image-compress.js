@@ -20,23 +20,22 @@ fs.access(output_path, (error) => {
 console.log(files.length);
 
 files.forEach(function(inputFile) {
-    if (fs.existsSync(inputFile)) {
-        // path exists
-        console.log("exists:", inputFile);
-    } else {
-        const image = sharp(inputFile);
-    image
-    .metadata()
-    .then(function(metadata) {
-            return image
-            .png({ palette: true, quality: 80 })
-            .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile))+'.jpg'))
-    }).catch(err => {
-        console.log(inputFile)
-        throw err;
+    fs.access(path, function (error) {
+        if (!error) {
+            const image = sharp(inputFile);
+            image
+            .metadata()
+            .then(function(metadata) {
+                    return image
+                    .png({ palette: true, quality: 80 })
+                    .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile))+'.jpg'))
+            }).catch(err => {
+                console.log(inputFile)
+                throw err;
+            });
+            console.log('done');
+        }
     });
-    console.log('done');
-    }
 });
 
 console.log('All images Resized')
