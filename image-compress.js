@@ -27,7 +27,7 @@ files.forEach(function(inputFile) {
             .metadata()
             .then(function(metadata) {
                     return image
-                    .png({ palette: true, quality: 80 })
+                    .jpeg({ mozjpeg: true })
                     .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile))+'.jpg'))
             }).catch(err => {
                 console.log(inputFile)
