@@ -11,37 +11,44 @@ import uniqid from 'uniqid';
 
 import fileModel from '../model/fileModel';
 
+import sharp from 'sharp';
+
+import path from 'path';
 
 config();
 
 let file = {};
 
-//SAVE FILE IN S3 CLIENT
 file.uploadFile = async (req, res) => {
+  const { buffer, mimetype } = req.file;
+
+  fs.access("./files/new", (error) => {
+    if (error) {
+      fs.mkdirSync("./files/new");
+    }
+  });
+
   try{
-    let auth = req.mwValue.auth;
-    let busboy = new Busboy({headers: req.headers});
-    busboy.on("file", async function (fieldname, file, filename, encoding, mimetype) {
-      // path to file upload
-      let ext = filename.split('.').pop();
-      filename = uniqid()+'.'+ext;
-      const saveTo = (__dirname+ "/../files/" + filename);
-      await file.pipe(fs.createWriteStream(saveTo));
+    const filename = uniqid() + '.jpg';
+
+    await sharp(buffer)
+    .jpeg({ mozjpeg: true })
+    .toFile("./files/" + filename);
 
       let dataset = {
         ID: uniqid(),
         PATH:filename,
         MIME_TYPE:mimetype
       };
+
       let fileId = await fileModel.createFile(req,dataset);
+
       if(fileId != null){
         res.status(201).json(helpers.response("201", "success", "Successfully file added",dataset));
       }
       else{
-        res.status(200).json(helpers.response("201", "error", "Database error!"));
+        res.status(400).json(helpers.response("400", "error", "Database error!"));
       }
-    });
-    req.pipe(busboy);
   }catch (e) {
     res.status(500).json(helpers.response("500", "error", "Something went wrong", e));
   }
