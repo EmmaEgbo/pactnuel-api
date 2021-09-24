@@ -25,7 +25,7 @@ files.forEach(function(inputFile) {
         if (metadata.format === 'jpeg') {
             return image
             .jpeg({ mozjpeg: true })
-            .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile))+'.jpg'))
+            .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile))+'.jpeg'))
         }
         else if (metadata.format === 'png') {
             return image
@@ -33,11 +33,14 @@ files.forEach(function(inputFile) {
             .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile))+'.png'))
         }
     }).catch(err => {
+        console.log(inputFile)
         throw err;
     });
 
     console.log('done');
 });
+
+console.log('All images Resized')
 
 
   
