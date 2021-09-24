@@ -20,7 +20,11 @@ fs.access(output_path, (error) => {
 console.log(files.length);
 
 files.forEach(function(inputFile) {
-    const image = sharp(inputFile);
+    if (fs.existsSync(inputFile)) {
+        // path exists
+        console.log("exists:", inputFile);
+    } else {
+        const image = sharp(inputFile);
     image
     .metadata()
     .then(function(metadata) {
@@ -31,8 +35,8 @@ files.forEach(function(inputFile) {
         console.log(inputFile)
         throw err;
     });
-
     console.log('done');
+    }
 });
 
 console.log('All images Resized')
