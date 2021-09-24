@@ -5,7 +5,7 @@ const sharp = require('sharp');
 
 const output_path = path.join(`${__dirname}/files/resizedPNG`);
 
-const patterns = ['./files/*jpg'];
+const patterns = ['./files/*png'];
 
 var files = globArray.sync(patterns);
 
