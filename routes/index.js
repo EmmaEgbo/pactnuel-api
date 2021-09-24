@@ -9,6 +9,7 @@ import publicationController from "../controller/PublicationController";
 import followController from "../controller/FollowController";
 import commentController from "../controller/CommentsController";
 import middleware from "../middleware";
+import upload from "../middleware/file-upload";
 
 const router = express.Router();
 
@@ -33,7 +34,7 @@ router.route("/updateImage").put(middleware.checkUserAuth,userController.updateI
 
 
 //File API
-router.route("/uploadFile").post(middleware.checkUserAuth,fileController.uploadFile);
+router.route("/uploadFile").post(middleware.checkUserAuth, upload.single('file'),fileController.uploadFile);
 
 //category API
 router.route("/addCategory").post(middleware.checkUserAuth,categoryController.addCategory);

@@ -3,8 +3,6 @@ import {config} from "dotenv";
 
 import helpers from "./../helpers";
 
-import Busboy from "busboy";
-
 import fs from "fs";
 
 import uniqid from 'uniqid';
@@ -12,8 +10,6 @@ import uniqid from 'uniqid';
 import fileModel from '../model/fileModel';
 
 import sharp from 'sharp';
-
-import path from 'path';
 
 config();
 
