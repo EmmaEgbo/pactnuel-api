@@ -454,7 +454,9 @@ exports.relatedBlogs = async (req,alias) => {
     let blogDetails = await blogModel.getDetail(req,alias);
     //get category Id
     let categories = JSON.parse(blogDetails.CATEGORIES);
-    categories = categories.map(a => a.id);
+    if(categories) {
+      categories = categories.map(a => a.id);
+    }
     let query = knex.from('c_blog')
       .innerJoin('c_user', 'c_blog.AUTHOR_BY', 'c_user.ID')
       .leftJoin('c_publication', 'c_publication.ID', 'c_blog.PUBLICATION')
@@ -462,9 +464,8 @@ exports.relatedBlogs = async (req,alias) => {
       .leftJoin('c_blog_category', function () {
         this
           .on('c_blog_category.BLOG_ID', 'c_blog.ID')
-          .onIn('c_blog_category.CATEGORY_ID',[categories])
+          .onIn('c_blog_category.CATEGORY_ID',categories)
       })
-
       .leftJoin('c_user_followed_blog', function () {
         this
           .on('c_blog.ID', 'c_user_followed_blog.BLOG_ID')
@@ -492,7 +493,9 @@ exports.relatedBlogs = async (req,alias) => {
           .onIn('c_user_followed_authors.USER_ID',[userId])
       })
       .whereNot({'c_blog.ALIAS':alias})
-      .where({'c_blog.AUTHOR_BY':blogDetails.AUTHOR_BY,'c_blog.STATUS':'PUBLISHED'}).orderByRaw('RAND()').limit(5);
+      .whereNot({'c_blog_category.BLOG_ID':null})
+      .orderByRaw('RAND()')
+      .limit(5);
 
     let data = await query.distinct(
       'c_blog.ID',
@@ -517,15 +520,11 @@ exports.relatedBlogs = async (req,alias) => {
       'c_publication.TITLE as PUBLICATION_TITLE',
       knex.raw("(select CONCAT('[',GROUP_CONCAT('{\"text\":\"',ct.NAME,'\",\"id\":\"',ct.ID,'\"}'),']') from c_blog_tag inner join c_tags ct on c_blog_tag.TAG_ID = ct.ID where c_blog_tag.BLOG_ID=c_blog.ID) as TAGS"),
       knex.raw("(select CONCAT('[',GROUP_CONCAT('{\"text\":\"',ct.NAME,'\",\"id\":\"',ct.ID,'\"}'),']') from c_blog_category inner join c_category ct on c_blog_category.CATEGORY_ID = ct.ID where c_blog_category.BLOG_ID=c_blog.ID) as CATEGORIES"))
-
     return data;
   }
   catch (e) {
     return e;
   }
-
-
-
 };
 
 exports.pickedBlogs = async (req,userId) => {
