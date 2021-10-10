@@ -28,7 +28,7 @@ file.uploadFile = async (req, res) => {
     const filename = uniqid() + '.jpg';
 
     await sharp(buffer)
-    .jpeg({ mozjpeg: true })
+    .jpeg({ mozjpeg: true, quality: 50 })
     .toFile("./files/" + filename);
 
       let dataset = {

@@ -23,9 +23,9 @@ files.forEach(function(inputFile) {
             const image = sharp(inputFile);
             image
             .metadata()
-            .then(function(metadata) {
+            .then(function(metadata) { 
                     return image
-                    .jpeg({ mozjpeg: true })
+                    .jpeg({ mozjpeg: true, quality: 10 })
                     .toFile(path.join(output_path, path.basename(inputFile, path.extname(inputFile))+'.jpg'))
             }).catch(err => {
                 console.log(inputFile)
