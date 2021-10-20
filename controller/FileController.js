@@ -18,17 +18,11 @@ let file = {};
 file.uploadFile = async (req, res) => {
   const { buffer, mimetype } = req.file;
 
-  fs.access("./files/new", (error) => {
-    if (error) {
-      fs.mkdirSync("./files/new");
-    }
-  });
-
   try{
     const filename = uniqid() + '.jpg';
 
     await sharp(buffer)
-    .jpeg({ mozjpeg: true, quality: 50 })
+    .jpeg({ mozjpeg: true, quality: 30 })
     .toFile("./files/" + filename);
 
       let dataset = {
