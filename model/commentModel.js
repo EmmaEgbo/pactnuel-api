@@ -89,7 +89,7 @@ exports.getAll = async (req, skip, take, filters) => {
     data.DATA = await query.offset(skip).limit(take).distinct('c_blog_comments.*',
       'c_blog.TITLE as BLOG_TITLE', 'c_blog.ID as BLOG_ID','c_blog.ALIAS as BLOG_ALIAS',
       'c_user.NAME as AUTHOR_FIRST_NAME','c_user.LAST_NAME as AUTHOR_LAST_NAME',
-      'c_user.EMAIL as AUTHOR_EMAIL',
+      'c_user.EMAIL as AUTHOR_EMAIL', 'c_user.IMAGE as AUTHOR_IMAGE'
     );
     let totalCount = await commentModel.getCount(filters);
     data.TOTAL = totalCount[0].COUNT;
