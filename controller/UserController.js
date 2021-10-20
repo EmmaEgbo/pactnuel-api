@@ -104,6 +104,7 @@ user.login = async (req,res) => {
             rowsData.GOOGLE_ID = userDetails.GOOGLE_ID;
             rowsData.ROLE = userDetails.ROLE;
             rowsData.FACEBOOK_ID = userDetails.FACEBOOK_ID;
+            rowsData.IMAGE = userDetails.IMAGE;
 
             rowsData.EXP = Math.floor(Date.now() / 1000) + (60 * 60 * 2 * 100);
             jwt.sign(rowsData, helpers.hash(process.env.APP_SUPER_SECRET_KEY), function (err, token) {
