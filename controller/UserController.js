@@ -105,9 +105,13 @@ user.login = async (req,res) => {
             rowsData.ROLE = userDetails.ROLE;
             rowsData.FACEBOOK_ID = userDetails.FACEBOOK_ID;
             rowsData.IMAGE = userDetails.IMAGE;
+            rowsData.BIO = userDetails.BIO;
+
+            const tokens = await userModel.generateAuthTokens(rowsData);
+            rowsData.TOKENS = tokens; 
 
             rowsData.EXP = Math.floor(Date.now() / 1000) + (60 * 60 * 2 * 100);
-            jwt.sign(rowsData, helpers.hash(process.env.APP_SUPER_SECRET_KEY), function (err, token) {
+            jwt.sign(rowsData, helpers.hash(process.env.APP_SUPER_SECRET_KEY), { expiresIn: rowsData.EXP }, function (err, token) {
               if (!err && token) {
                 rowsData.ACCESS_TOKEN = token;
                 //AUTHENTICATED
@@ -129,7 +133,7 @@ user.login = async (req,res) => {
 
         }
         else{
-          res.status(200).json(helpers.response("200", "error", "Yor are not registered with us!"));
+          res.status(200).json(helpers.response("200", "error", "You are not registered with us!"));
         }
       }
       else{
@@ -153,7 +157,9 @@ user.getDetails = async (req,res) => {
       if(userDetails != null){
         delete userDetails.PASSWORD;
         //get followers
-
+        let totalFCount = await followModel.getFollowersCount(userDetails.ID);
+        userDetails.TOTAL_FOLLOWERS = totalFCount[0].COUNT;
+      
         //get blog written
         let totalBCount = await followModel.getBlogPostedCount(userDetails.ID);
         userDetails.TOTAL_BLOG = totalBCount[0].COUNT;
@@ -176,6 +182,39 @@ user.getDetails = async (req,res) => {
       res.status(200).json(helpers.response("200", "error", "Validation Error!"));
     }
 
+  }
+  catch (e) {
+    res.status(400).json(helpers.response("400", "error", "Something went wrong."));
+  }
+
+};
+
+user.getUserDetails = async (req,res) => {
+  try{
+      let userDetails = await userModel.getUserDetails(req);
+      if(userDetails != null){
+        delete userDetails.PASSWORD;
+        //get followers
+        let totalFCount = await followModel.getFollowersCount(userDetails.ID);
+        userDetails.TOTAL_FOLLOWERS = totalFCount[0].COUNT;
+      
+        //get blog written
+        let totalBCount = await followModel.getBlogPostedCount(userDetails.ID);
+        userDetails.TOTAL_BLOG = totalBCount[0].COUNT;
+
+        //get followed publication
+        let totalCount = await followModel.getFollowedPublicationCount(userDetails.ID);
+        userDetails.TOTAL_PUBLICATION = totalCount[0].COUNT;
+
+        //get followed authors
+        let totalACount = await followModel.getFollowedAuthorCount(userDetails.ID);
+        userDetails.TOTAL_AUTHOR = totalACount[0].COUNT;
+
+        res.status(200).json(helpers.response("200", "success", "Successful!", userDetails));
+      }
+      else{
+        res.status(200).json(helpers.response("200", "error", "User Not Found!"));
+      }
   }
   catch (e) {
     res.status(400).json(helpers.response("400", "error", "Something went wrong."));
@@ -416,6 +455,32 @@ user.updateImage = async (req,res) => {
   }
 
 
+};
+
+user.refreshTokens = async (req,res) => {
+  try {
+    const user = await userModel.verifyToken(req.body.refreshToken);
+    if (!user) {
+      return res.status(200).json(helpers.response("200", "success", "User not found"));
+    }
+    const tokens = await userModel.generateAuthTokens(user);
+    if (tokens != null) {
+      res.status(200).json(helpers.response("200", "success", "Fetch Successful", tokens));
+    }
+  }
+  catch (e) {
+    res.status(400).json(helpers.response("400", "error", "Something went wrong."));
+  }
+};
+
+user.logout = async (req,res) => {
+  try {
+    await userModel.logout(req.body.refreshToken);
+    res.status(204).json(helpers.response("204"));
+  }
+  catch (e) {
+    res.status(400).json(helpers.response("400", "error", "Something went wrong."));
+  }
 };
 
 
