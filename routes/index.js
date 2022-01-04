@@ -22,6 +22,7 @@ router.use(middleware.checkFormatKey);
 router.route("/login").post(middleware.checkFormatKey,userController.login);
 router.route("/register").post(middleware.checkFormatKey,userController.register);
 router.route("/userDetails").post(middleware.checkFormatKey,middleware.adjustUserAuth,userController.getDetails);
+router.route("/user").get(middleware.checkFormatKey,middleware.adjustUserAuth,userController.getUserDetails);
 router.route("/accountActivation").post(middleware.checkFormatKey,userController.accountActivation);
 router.route("/forgotPasswordResendActivation").post(middleware.checkFormatKey,userController.forgotPasswordResendActivation);
 router.route("/forgotPassword").post(middleware.checkFormatKey,userController.forgotPassword);
@@ -29,6 +30,8 @@ router.route("/getAllUsers").post(middleware.checkFormatKey,userController.getAl
 router.route("/updateUser").put(middleware.checkUserAuth,userController.updateUser);
 router.route("/updatePassword").put(middleware.checkUserAuth,userController.updatePassword);
 router.route("/updateImage").put(middleware.checkUserAuth,userController.updateImage);
+router.route("/refreshToken").post(userController.refreshTokens);
+router.route("/logout").post(userController.logout);
 
 
 
