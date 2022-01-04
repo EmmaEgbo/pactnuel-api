@@ -57,7 +57,7 @@ middleware.checkUserAuth = (req, res, next) => {
       helpers.verifyToken(token[1],(err, tokenData) =>{
         if(!err && tokenData){
           req.mwValue = {};
-          req.mwValue.auth = tokenData;
+          req.mwValue.auth = tokenData.sub;
           next();
         }
         else{
@@ -150,7 +150,7 @@ middleware.adjustUserAuth = (req, res, next) =>{
         helpers.verifyToken(token[1], (err, tokenData) => {
           if (!err && tokenData) {
             req.mwValue = {};
-            req.mwValue.auth = tokenData;
+            req.mwValue.auth = tokenData.sub;
             next();
           } else {
             res.status(403).json(helpers.response("403", "error", "User Unauthorized"));
