@@ -264,6 +264,20 @@ exports.getFollowedAuthorCount = async (userId) => {
 
 };
 
+exports.getFollowersCount = async (userId) => {
+  try {
+    let query = knex.from('c_user')
+      .innerJoin('c_user_followed_authors', 'c_user.ID', 'c_user_followed_authors.AUTHOR_ID')
+      .where({'c_user_followed_authors.AUTHOR_ID':userId });
+
+    return await query.count({ 'COUNT': 'c_user.ID' });
+  }
+  catch (e) {
+    return e;
+  }
+
+};
+
 exports.getFollowedPublication = async (req,userId, skip, take) => {
   try {
     let data = {};
