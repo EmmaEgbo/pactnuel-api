@@ -1,8 +1,13 @@
 import userModel from "./userModel";
 const uniqid = require('uniqid');
+import jwt from "jsonwebtoken";
 import {knex} from "../config/config";
 const md5 = require('md5');
+const moment = require('moment');
+import helpers from "../helpers";
+import {config} from "dotenv";
 
+config();
 
 //get UserID wise data
 exports.getDetail = async (req, email) => {
@@ -10,7 +15,6 @@ exports.getDetail = async (req, email) => {
   if(req.hasOwnProperty('mwValue')){
     userId = req.mwValue.auth.ID;
   }
-  const dbTransaction = await knex.transaction;
   try{
     let result = await knex.select('c_user.*','c_user_followed_authors.ID as FOLLOWEDSTATUS')
       .leftJoin('c_user_followed_authors', function () {
@@ -19,6 +23,23 @@ exports.getDetail = async (req, email) => {
           .onIn('c_user_followed_authors.USER_ID',[userId])
       })
       .from('c_user').where({ "c_user.EMAIL": email}).limit(1);
+    if (result.length == 0) {
+      return null;
+    }
+    return result[0];
+  }catch (e) {
+    throw e
+  }
+};
+
+exports.getUserDetails = async (req) => {
+  let userId = 0;
+  if(req.hasOwnProperty('mwValue')){
+    userId = req.mwValue.auth.ID;
+  }
+  try{
+    let result = await knex.select('*')
+      .from('c_user').where({ "ID": userId }).limit(1);
     if (result.length == 0) {
       return null;
     }
@@ -125,6 +146,63 @@ exports.updateToken = async (email,token) => {
     console.log(e.message)
     throw e;
   }
+};
+
+const generateToken = async (data, expires, refresh = false) => {
+  const payload = {
+    sub: refresh ? data.ID : data,
+    iat: moment().unix(),
+    exp: expires.unix(),
+  };
+  return jwt.sign(payload, helpers.hash(process.env.APP_SUPER_SECRET_KEY));
+};
+
+const saveToken = async (token, userId, expires, blacklisted = false) => {
+  await knex('c_user_tokens').insert({
+    ID: uniqid(),
+    TOKEN: token,
+    USER_ID: userId,
+    EXPIRES: expires.toDate(),
+    BLACKLISTED: blacklisted
+  });
+};
+
+exports.generateAuthTokens = async (userData) => {
+  const accessTokenExpires = moment().add(process.env.JWT_ACCESS_EXPIRATION_MINUTES, 'minutes');
+  const accessToken = await generateToken(userData, accessTokenExpires);
+
+  const refreshTokenExpires = moment().add(process.env.JWT_REFRESH_EXPIRATION_DAYS, 'days');
+  const refreshToken = await generateToken(userData, refreshTokenExpires, true);
+  await saveToken(refreshToken, userData.ID, refreshTokenExpires);
+
+  return {
+    access: {
+      token: accessToken,
+      expires: accessTokenExpires.toDate(),
+    },
+    refresh: {
+      token: refreshToken,
+      expires: refreshTokenExpires.toDate(),
+    },
+  };
+};
+
+exports.verifyToken = async (token) => {
+  const payload = jwt.verify(token, helpers.hash(process.env.APP_SUPER_SECRET_KEY));
+  const tokenDoc = await knex.from('c_user_tokens').where({ TOKEN:token, USER_ID: payload.sub });
+  if (!tokenDoc[0]) {
+    return false;
+  }
+  const user = await knex.from('c_user').where({ ID: tokenDoc[0].USER_ID});
+  if (!user) {
+    throw new Error();
+  }
+  await knex('c_user_tokens').where('USER_ID', user[0].ID).del();
+  return user[0];
+};
+
+exports.logout = async (token) => {
+  await knex('c_user_tokens').where('TOKEN', token).del();
 };
 
 exports.updatePassword = async (email,password) => {
