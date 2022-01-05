@@ -110,20 +110,11 @@ user.login = async (req,res) => {
             const tokens = await userModel.generateAuthTokens(rowsData);
             rowsData.TOKENS = tokens; 
 
-            rowsData.EXP = Math.floor(Date.now() / 1000) + (60 * 60 * 2 * 100);
-            jwt.sign(rowsData, helpers.hash(process.env.APP_SUPER_SECRET_KEY), { expiresIn: rowsData.EXP }, function (err, token) {
-              if (!err && token) {
-                rowsData.ACCESS_TOKEN = token;
-                //AUTHENTICATED
-                user.postAuth(userDetails).then((updateData) => {
-                  if (updateData.status) {
-                    res.status(200).json(helpers.response("200", "success", "Login Successful", rowsData));
-                  } else {
-                    res.status(500).json(helpers.response("500", "error", "Something went wrong", rowsData));
-                  }
-                });
+            user.postAuth(userDetails).then((updateData) => {
+              if (updateData.status) {
+                res.status(200).json(helpers.response("200", "success", "Login Successful", rowsData));
               } else {
-                res.status(500).json(helpers.response("500", "error", "Something went wrong"));
+                res.status(500).json(helpers.response("500", "error", "Something went wrong", rowsData));
               }
             });
           }
