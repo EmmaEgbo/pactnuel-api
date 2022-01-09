@@ -12,10 +12,6 @@ exports.createComment = async (context,dataset) => {
     let userId = context.mwValue.auth.ID;
     dataset.CREATED_BY = userId;
     dataset.CREATED_AT = new Date();
-    let weight = await knex.from('c_blog_comments')
-      .where({'BLOG_ID':dataset.BLOG_ID}).count('ID as COUNT');
-    dataset.WEIGHT = weight[0].COUNT + 1;
-
     await trx('c_blog_comments').insert([dataset]);
 
     trx.commit();
@@ -59,7 +55,7 @@ exports.changeStatus = async (context,id,dataset) => {
 
     await trx('c_blog_comments').where({
       ID: id
-    }).update(dataset);
+    }).del();
 
     trx.commit();
     return id;
@@ -93,6 +89,7 @@ exports.getAll = async (req, skip, take, filters) => {
     );
     let totalCount = await commentModel.getCount(filters);
     data.TOTAL = totalCount[0].COUNT;
+    
     return data;
   }
   catch (e) {

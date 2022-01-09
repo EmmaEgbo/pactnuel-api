@@ -14,8 +14,6 @@ comment.addComment  = async (req,res) =>{
     let blogId = typeof (payload.BLOG_ID) === "string" && payload.BLOG_ID.trim().length > 0? payload.BLOG_ID : null;
     let comments = typeof (payload.COMMENT) === "string" && payload.COMMENT.trim().length > 0? payload.COMMENT : false;
 
-
-
     //check tags are duplicate or not
     // validation
     if(blogId && comments) {
