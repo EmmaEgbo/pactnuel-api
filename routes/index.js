@@ -38,6 +38,7 @@ router.route("/logout").post(userController.logout);
 
 //File API
 router.route("/uploadFile").post(middleware.checkUserAuth, upload.single('file'),fileController.uploadFile);
+router.route("/uploadProfilePic").post(middleware.checkUserAuth,fileController.uploadProfilePic);
 
 //category API
 router.route("/addCategory").post(middleware.checkUserAuth,categoryController.addCategory);
