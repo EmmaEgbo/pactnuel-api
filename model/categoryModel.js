@@ -44,6 +44,7 @@ exports.createCategory = async (context,dataset) => {
 
 
 };
+
 exports.updateCategory = async (context,id,dataset) => {
   try {
     dataset.USED_IN = JSON.stringify(dataset.USED_IN );
@@ -52,6 +53,19 @@ exports.updateCategory = async (context,id,dataset) => {
     await knex('c_category').where({
       ID: id
     }).update(dataset);
+    return 'success'
+  }
+  catch (e) {
+    console.log(e.message)
+    throw e;
+  }
+};
+
+exports.deleteCategory = async (id) => {
+  try {
+    await knex('c_category').where({
+      ID: id
+    }).del();
     return 'success'
   }
   catch (e) {

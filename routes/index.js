@@ -45,6 +45,7 @@ router.route("/addCategory").post(middleware.checkUserAuth,categoryController.ad
 router.route("/getAllCategory").get(middleware.adjustUserAuth, categoryController.getAllCategory);
 router.route("/updateCategory/:id").put(middleware.checkUserAuth,categoryController.updateCategory);
 router.route("/getCategory/:id").get(middleware.adjustUserAuth,categoryController.getCategory);
+router.route("/deleteCategory/:id").delete(middleware.adjustUserAuth,categoryController.deleteCategory);
 
 
 //tags API

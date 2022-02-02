@@ -73,6 +73,7 @@ category.getAllCategory = async (req,res) => {
   }
 
 };
+
 category.updateCategory = async (req,res) => {
   try{
     if (!req.params.id) {
@@ -99,6 +100,32 @@ category.updateCategory = async (req,res) => {
     res.status(400).json(helpers.response("400", "error", "Something went wrong."));
   }
 
+};
+
+category.deleteCategory = async (req,res) => {
+  try{
+    if (!req.params.id) {
+      res.status(400);
+      res.end();
+      return;
+    }
+    let getDetials = await categoryModel.getDetail(req.params.id);
+    if(getDetials != null){
+      let status = await categoryModel.deleteCategory(req.params.id);
+      if(status != null){
+        res.status(200).json(helpers.response("200", "success", "Deleted Successfully!"));
+      }
+      else{
+        res.status(200).json(helpers.response("200", "error", "Delete is not possible!"));
+      }
+    }
+    else{
+      res.status(200).json(helpers.response("200", "error", "Category doesn't exists!"));
+    }
+  }
+  catch (e) {
+    res.status(400).json(helpers.response("400", "error", "Something went wrong."));
+  }
 };
 
 
