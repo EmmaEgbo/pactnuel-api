@@ -255,7 +255,7 @@ exports.getAll = async (req, skip, take, filters) => {
       'c_blog.FEATURED',
       'c_blog.CONTENT',
       'c_blog.TOP'
-      ,'c_user.EMAIL','c_user.NAME','c_user.LAST_NAME',
+      ,'c_user.EMAIL','c_user.NAME','c_user.LAST_NAME', 'c_user.IMAGE',
       'c_user_followed_blog.ID as BLOGFOLLOWEDSTATUS',
       'c_user_followed_categories.ID as CATEGORYFOLLOWEDSTATUS',
       'c_user_followed_publication.ID as PUBLICATIONFOLLOWEDSTATUS',
@@ -501,6 +501,7 @@ exports.relatedBlogs = async (req,alias) => {
       'c_blog.ID',
       'c_blog.TITLE',
       'c_blog.DESCRIPTION',
+      'c_blog.CONTENT',
       'c_blog.FEATURE_MEDIA',
       'c_blog.PUBLICATION',
       'c_blog.AUTHOR_BY',

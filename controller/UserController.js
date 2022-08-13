@@ -1,11 +1,7 @@
 import helpers from "../helpers";
 import {config} from "dotenv";
-import crypto from "crypto";
-import jwt from "jsonwebtoken";
 import userModel from '../model/userModel';
 import uniqid from 'uniqid';
-import publicationModel from "../model/publicationModel";
-import publication from "./PublicationController";
 import followModel from "../model/followModel";
 const md5 = require('md5');
 
@@ -446,6 +442,27 @@ user.updateImage = async (req,res) => {
   }
 
 
+};
+
+user.updatePushToken = async (req,res) => {
+  try{
+    let payload = req.body;
+    const userID = req.mwValue.auth.ID;
+    let push_token = typeof (payload.PUSHTOKEN) === "string" && payload.PUSHTOKEN.trim().length > 0 ? payload.PUSHTOKEN : false;
+    if(push_token){
+      let status = await userModel.updatePushToken(userID, push_token);
+      if(status != null){
+        return res.status(200).json(helpers.response("200", "success", "Your Push Token has been changed successfully!"));
+      } else {
+        return res.status(400).json(helpers.response("400", "error", "Something went wrong."));
+      }
+    }
+    else{
+      return res.status(200).json(helpers.response("200", "error", "Validation Error!"));
+    }
+  }catch (e) {
+    return res.status(400).json(helpers.response("400", "error", "Something went wrong.", e.message));
+  }
 };
 
 user.refreshTokens = async (req,res) => {

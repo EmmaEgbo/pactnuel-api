@@ -1,17 +1,16 @@
 import helpers from "../helpers";
-import {config} from "dotenv";
+import { config } from "dotenv";
 import blogModel from '../model/blogModel';
 import uniqid from 'uniqid';
-import publicationModel from "../model/publicationModel";
-import publication from "./PublicationController";
-import {knex} from "../config/config";
+import { knex } from "../config/config";
+import { notifyFollowers, notifyAllUsers } from '../helpers/sendPushNotfication';
 
 config();
 
 let blog = {};
 blog.addBlog  = async (req,res) =>{
   try{
-
+    const userId = req.mwValue.auth.ID;
     let payload = req.body;
     let desc = typeof (payload.DESCRIPTION) === "string" && payload.DESCRIPTION.trim().length > 0? payload.DESCRIPTION : null;
     let title = typeof (payload.TITLE) === "string" && payload.TITLE.trim().length > 0? payload.TITLE : false;
@@ -32,7 +31,7 @@ blog.addBlog  = async (req,res) =>{
       payload.FEATURE_MEDIA = JSON.stringify(featureMedia);
       payload.DESCRIPTION = desc;
       payload.TITLE = title;
-      payload.AUTHOR_BY = authorBy;
+      payload.AUTHOR_BY = userId;
       payload.TAGS = tags;
       payload.CATEGORIES = category;
       payload.CONTENT = JSON.stringify(content);
@@ -41,6 +40,7 @@ blog.addBlog  = async (req,res) =>{
         res.status(200).json(helpers.response("200", "error", "Database Error!"));
       }
       else{
+        payload.STATUS === "PUBLISHED" && await notifyFollowers(userId, payload, blogDetails.ALIAS)
         res.status(201).json(helpers.response("201", "success", "blogDetails Added!", {DATA:blogDetails}));
       }
     }
@@ -48,6 +48,7 @@ blog.addBlog  = async (req,res) =>{
       res.status(200).json(helpers.response("200", "error", "Validation Error!"));
     }
   }catch(e){
+    console.log(e)
     res.status(500).json(helpers.response("500", "error", "Something went wrong"));
   }
 };
@@ -143,6 +144,7 @@ blog.updateBlog = async (req,res) => {
 
 blog.markTop = async (req,res) => {
   try{
+    const userId = req.mwValue.auth.ID;
     if (!req.params.id) {
       res.status(400);
       res.end();
@@ -162,6 +164,7 @@ blog.markTop = async (req,res) => {
         }
         let status = await blogModel.markTop(req.params.id,getDetails.TOP);
         if(status != null){
+          getDetails.TOP === 1 && await notifyAllUsers(userId, getDetails, "Top")
           res.status(200).json(helpers.response("200", "success", "Updated Successfully!"));
         }
         else{
@@ -186,6 +189,7 @@ blog.markTop = async (req,res) => {
 
 blog.markFeatured = async (req,res) => {
   try{
+    const userId = req.mwValue.auth.ID;
     if (!req.params.id) {
       res.status(400);
       res.end();
@@ -206,6 +210,7 @@ blog.markFeatured = async (req,res) => {
         }
         let status = await blogModel.markFeatured(req.params.id,getDetails.FEATURED);
         if(status != null){
+          getDetails.FEATURED === 1 && await notifyAllUsers(userId, getDetails, "Featured")
           res.status(200).json(helpers.response("200", "success", "Updated Successfully!"));
         }
         else{

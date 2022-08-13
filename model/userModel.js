@@ -148,6 +148,20 @@ exports.updateToken = async (email,token) => {
   }
 };
 
+exports.updatePushToken = async (userID, push_token) => {
+  try {
+    await knex('c_user').where({
+      ID: userID
+    }).update({ PUSHTOKEN: push_token});
+    return 'success'
+  }
+  catch (e) {
+    console.log(e.message)
+    throw e;
+  }
+};
+
+
 const generateToken = async (data, expires, refresh = false) => {
   const payload = {
     sub: refresh ? data.ID : data,
@@ -168,7 +182,7 @@ const saveToken = async (token, userId, expires, blacklisted = false) => {
 };
 
 exports.generateAuthTokens = async (userData) => {
-  const accessTokenExpires = moment().add(720, 'minutes');
+  const accessTokenExpires = moment().add(2000, 'minutes');
   const accessToken = await generateToken(userData, accessTokenExpires);
 
   const refreshTokenExpires = moment().add(14, 'days');
@@ -263,6 +277,17 @@ exports.getAll = async (req, skip, take, filters) => {
     let totalCount = await userModel.getCount(filters);
     data.TOTAL = totalCount[0].COUNT;
     return data;
+  }
+  catch (e) {
+    return e;
+  }
+
+};
+
+exports.getAllUsers = async () => {
+  try {
+    const users = knex.select('*').from('c_user');
+    return users;
   }
   catch (e) {
     return e;

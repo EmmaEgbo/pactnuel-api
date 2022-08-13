@@ -8,6 +8,7 @@ import blogController from "../controller/BlogController";
 import publicationController from "../controller/PublicationController";
 import followController from "../controller/FollowController";
 import commentController from "../controller/CommentsController";
+import notificationController from "../controller/NotificationController";
 import middleware from "../middleware";
 import upload from "../middleware/file-upload";
 
@@ -30,6 +31,7 @@ router.route("/getAllUsers").post(middleware.checkFormatKey,userController.getAl
 router.route("/updateUser").put(middleware.checkUserAuth,userController.updateUser);
 router.route("/updatePassword").put(middleware.checkUserAuth,userController.updatePassword);
 router.route("/updateImage").put(middleware.checkUserAuth,userController.updateImage);
+router.route("/updatePushToken").put(middleware.checkUserAuth, userController.updatePushToken);
 router.route("/refreshToken").post(userController.refreshTokens);
 router.route("/logout").post(userController.logout);
 
@@ -47,6 +49,13 @@ router.route("/updateCategory/:id").put(middleware.checkUserAuth,categoryControl
 router.route("/getCategory/:id").get(middleware.adjustUserAuth,categoryController.getCategory);
 router.route("/deleteCategory/:id").delete(middleware.adjustUserAuth,categoryController.deleteCategory);
 
+//notification API
+router.route("/notification/add").post(middleware.checkUserAuth, notificationController.createNotification);
+router.route("/notifications").get(middleware.adjustUserAuth, notificationController.getAllNotifications);
+router.route("/notifications/unReadCount").get(middleware.adjustUserAuth, notificationController.getUnReadCount);
+router.route("/notification/:id/markAsRead").put(middleware.checkUserAuth, notificationController.markNotificationAsRead);
+router.route("/notification/markAllAsRead").put(middleware.adjustUserAuth, notificationController.markAllNotificationsAsRead);
+router.route("/notification/markAsReadWithEntity").put(middleware.adjustUserAuth, notificationController.markNotificationAsReadWithEntity);
 
 //tags API
 router.route("/addUpdateTags").post(middleware.checkUserAuth,tagController.addUpdateTags);

@@ -232,7 +232,7 @@ exports.getBlogLikeCount = async (blogId) => {
   }
 };
 
-exports.getFollowedAuthor = async (req, userId, skip, take) => {
+exports.getFollowedAuthor = async (userId, skip, take) => {
   try {
     let data = {};
     let query = knex.from('c_user')
@@ -248,6 +248,20 @@ exports.getFollowedAuthor = async (req, userId, skip, take) => {
     return e;
   }
 
+};
+
+exports.getAuthorFollowers = async (userId) => {
+  try {
+    let query = knex.from('c_user')
+      .innerJoin('c_user_followed_authors', 'c_user.ID', 'c_user_followed_authors.USER_ID')
+      .where({ 'c_user_followed_authors.AUTHOR_ID': userId });
+
+    return await query.distinct('c_user.*');
+  }
+  catch (e) {
+    console.log(e)
+    throw e;
+  }
 };
 
 exports.getFollowedAuthorCount = async (userId) => {

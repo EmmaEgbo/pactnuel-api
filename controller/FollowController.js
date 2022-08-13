@@ -6,6 +6,7 @@ import blogModel from "../model/blogModel";
 import publicationModel from "../model/publicationModel";
 import userModel from "../model/userModel";
 import categoryModel from "../model/categoryModel";
+import { authorFollow } from "../helpers/sendPushNotfication";
 
 config();
 
@@ -99,11 +100,13 @@ follow.followAuthor = async (req,res) => {
       res.end();
       return;
     }
+    const userId = req.mwValue.auth.ID;
     let getDetails = await userModel.getDetailById(req.params.id);
     if(getDetails != null ){
       let status = await followModel.followAuthor(req, req.params.id);
       if(status != null){
-        res.status(200).json(helpers.response("200", "success", "Followed Successfully!",status));
+        status === "added" && await authorFollow(userId, getDetails)
+        res.status(200).json(helpers.response("200", "success", "Followed Successfully!", status));
       }
       else{
         res.status(200).json(helpers.response("200", "error", "Following is not possible!"));
@@ -214,7 +217,7 @@ follow.getFollowedAuthor = async (req,res) => {
     let take = req.query.take ? req.query.take : 50;
     let getDetails = await userModel.getDetailById(req.params.id);
     if(getDetails != null){
-      let result = await followModel.getFollowedAuthor(req, req.params.id, skip, take);
+      let result = await followModel.getFollowedAuthor(req.params.id, skip, take);;
       if(result != null){
         res.status(200).json(helpers.response("200", "success", "Fetch Successfully!",result));
       }

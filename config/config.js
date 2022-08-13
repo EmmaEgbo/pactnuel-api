@@ -5,6 +5,9 @@ import debug from  "debug";
 
 import connectionKnex from "./../knexfile";
 
+import { attachPaginate } from 'knex-paginate';
+attachPaginate();
+
 import {MongoClient} from "mongodb";
 
 config();
