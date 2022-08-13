@@ -21,7 +21,7 @@ const authorFollow = async (senderID, userDetails) => {
    
     // send push notification
     if(userDetails.PUSHTOKEN !== null) {
-        const data = { ENTITY_ID: user, NOTIFICATION_TYPE: "follow_author", USER_FROM: senderID };
+        const data = { ENTITY_ID: user.EMAIL, NOTIFICATION_TYPE: "follow_author", USER_FROM: senderID };
         await sendPushNotfication([userDetails.PUSHTOKEN], message, data)
     }
 }
