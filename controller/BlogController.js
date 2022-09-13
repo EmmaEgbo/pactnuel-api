@@ -4,6 +4,7 @@ import blogModel from '../model/blogModel';
 import uniqid from 'uniqid';
 import { knex } from "../config/config";
 import { notifyFollowers, notifyAllUsers } from '../helpers/sendPushNotfication';
+import contentParser from '../helpers/contentParser';
 
 config();
 
@@ -19,7 +20,7 @@ blog.addBlog  = async (req,res) =>{
     let publication = typeof (payload.PUBLICATION) === "string" && payload.PUBLICATION.trim().length > 0? payload.PUBLICATION : null;
     let category = payload.CATEGORIES.length > 0 ? payload.CATEGORIES : [];
     let tags = payload.TAGS.length > 0 ? payload.TAGS : [];
-    let content = typeof (payload.CONTENT) === "object"? payload.CONTENT : false;
+    let content = typeof (payload.CONTENT) === "string"? payload.CONTENT : false;
     let featureMedia = typeof (payload.FEATURE_MEDIA) === "object"? payload.FEATURE_MEDIA : {};
     //check tags are duplicate or not
     // validation
@@ -34,14 +35,14 @@ blog.addBlog  = async (req,res) =>{
       payload.AUTHOR_BY = userId;
       payload.TAGS = tags;
       payload.CATEGORIES = category;
-      payload.CONTENT = JSON.stringify(content);
+      payload.HTML = JSON.stringify(content);
       let blogDetails = await blogModel.createBlog(req, payload);
       if(blogDetails == null){
         res.status(200).json(helpers.response("200", "error", "Database Error!"));
       }
       else{
         payload.STATUS === "PUBLISHED" && await notifyFollowers(userId, payload, blogDetails.ALIAS)
-        res.status(201).json(helpers.response("201", "success", "blogDetails Added!", {DATA:blogDetails}));
+        res.status(201).json(helpers.response("201", "success", "blogDetails Added!", { DATA:blogDetails }));
       }
     }
     else{
@@ -101,8 +102,6 @@ blog.updateBlog = async (req,res) => {
       res.end();
       return;
     }
-
-
     let payload = req.body;
     let desc = typeof (payload.DESCRIPTION) === "string" && payload.DESCRIPTION.trim().length > 0? payload.DESCRIPTION : '';
     let title = typeof (payload.TITLE) === "string" && payload.TITLE.trim().length > 0? payload.TITLE : false;
@@ -111,7 +110,7 @@ blog.updateBlog = async (req,res) => {
     let publication = typeof (payload.PUBLICATION) === "string" && payload.PUBLICATION.trim().length > 0? payload.PUBLICATION : '';
     let category = payload.CATEGORIES.length > 0 ? payload.CATEGORIES : [];
     let tags = payload.TAGS.length > 0 ? payload.TAGS : [];
-    let content = typeof (payload.CONTENT) === "object"? payload.CONTENT : false;
+    let content = typeof (payload.CONTENT) === "string" ? payload.CONTENT : false;
     let featureMedia = typeof (payload.FEATURE_MEDIA) === "object"? payload.FEATURE_MEDIA : {};
     //check tags are duplicate or not
     // validation
@@ -124,7 +123,8 @@ blog.updateBlog = async (req,res) => {
       payload.AUTHOR_BY = authorBy;
       payload.TAGS = tags;
       payload.CATEGORIES = category;
-      payload.CONTENT = JSON.stringify(content);
+      payload.CONTENT = {}; 
+      payload.HTML = JSON.stringify(content);
       let blogDetails = await blogModel.updateBlog(req,req.params.id, payload);
       if(blogDetails == null){
         res.status(200).json(helpers.response("200", "error", "Database Error!"));
@@ -137,6 +137,37 @@ blog.updateBlog = async (req,res) => {
       res.status(200).json(helpers.response("200", "error", "Validation Error!"));
     }
   }catch(e){
+    console.log(e)
+    res.status(500).json(helpers.response("500", "error", "Something went wrong"));
+  }
+
+};
+
+blog.updateStoryStatus = async (req,res) => {
+  try{
+    if (!req.params.id) {
+      res.status(400);
+      res.end();
+      return;
+    }
+    let payload = req.body;
+    let status = typeof (payload.STATUS) === "string" && payload.STATUS.trim().length > 0? payload.STATUS : false;
+   
+    if(status) {
+      payload.STATUS = status;
+      let blogDetails = await blogModel.updateStoryStatus(req,req.params.id, payload);
+      if(blogDetails == null){
+        res.status(200).json(helpers.response("200", "error", "Database Error!"));
+      }
+      else{
+        res.status(200).json(helpers.response("201", "success", "blogDetails Updated!", {DATA:blogDetails}));
+      }
+    }
+    else{
+      res.status(200).json(helpers.response("200", "error", "Validation Error!"));
+    }
+  }catch(e){
+    console.log(e)
     res.status(500).json(helpers.response("500", "error", "Something went wrong"));
   }
 
@@ -395,6 +426,28 @@ blog.pickedBlogs = async (req,res) => {
     res.status(400).json(helpers.response("400", "error", "Something went wrong."));
   }
 
+};
+
+blog.getAllBlogz = async (req,res) => {
+  try {
+    const blogs = await knex('c_blog').select('ID','CONTENT');
+    for(let i =0; i< blogs.length; i++) {
+      const content = JSON.parse(blogs[i].CONTENT);
+      if(!content || !content.blocks || !content.blocks.length > 0) continue
+      const html = contentParser(content);
+      await knex('c_blog')
+        .where({ ID: blogs[i].ID })
+        .update({ HTML: html })
+    }
+    
+    return res.json({
+      "message": "Done"
+    });
+  }
+  catch (e) {
+    console.log(e)
+    res.status(400).json(helpers.response("400", "error", "Something went wrong."));
+  };
 };
 
 

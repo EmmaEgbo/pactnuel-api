@@ -1,9 +1,6 @@
-import userModel from "./userModel";
-
 const uniqid = require('uniqid');
 import {knex} from "../config/config";
 import blogModel from './blogModel';
-import followModel from "./followModel";
 const _ = require('lodash');
 
 
@@ -78,7 +75,8 @@ exports.createBlog = async (context,dataset) => {
       FEATURE_MEDIA:dataset.FEATURE_MEDIA,
       PUBLICATION:dataset.PUBLICATION,
       AUTHOR_BY:dataset.AUTHOR_BY,
-      CONTENT:dataset.CONTENT,
+      CONTENT: {},
+      HTML:dataset.HTML,
       STATUS:dataset.STATUS,
       ALIAS:dataset.ALIAS,
       UPDATED_AT:new Date()
@@ -122,15 +120,20 @@ exports.updateBlog = async (context,id,dataset) => {
     await knex('c_blog').where({
       ID: id
     }).update({
+      HTML:  dataset.HTML,
+    });
+    await knex('c_blog').where({
+      ID: id
+    }).update({
       TITLE:dataset.TITLE,
       DESCRIPTION:dataset.DESCRIPTION,
       FEATURE_MEDIA:dataset.FEATURE_MEDIA,
       PUBLICATION:dataset.PUBLICATION,
       AUTHOR_BY:dataset.AUTHOR_BY,
-      CONTENT:dataset.CONTENT,
+      HTML:  dataset.HTML,
       STATUS:dataset.STATUS,
       ALIAS:dataset.ALIAS,
-      UPDATED_AT:new Date()
+      UPDATED_AT: new Date()
     });
     //get previous blog categories
     let currentCategories = dataset.CATEGORIES;
@@ -197,6 +200,28 @@ exports.updateBlog = async (context,id,dataset) => {
 
 };
 
+exports.updateStoryStatus = async (context,id,dataset) => {
+  if (dataset.STATUS === 'DELETED') {
+    await knex('c_blog').where({
+      ID: id
+    }).delete();
+    return { "ID": id, "ALIAS": dataset.ALIAS };
+  }
+
+  try {
+    dataset.ALIAS = await blogModel.generateAlias(dataset.TITLE,id);
+    await knex('c_blog').where({
+      ID: id
+    }).update({
+      STATUS:dataset.STATUS
+    });
+    return { "ID":id };
+  }
+  catch (e) {
+    throw e;
+  }
+};
+
 exports.getAll = async (req, skip, take, filters) => {
   try {
     let data = {};
@@ -254,6 +279,7 @@ exports.getAll = async (req, skip, take, filters) => {
       'c_blog.ALIAS',
       'c_blog.FEATURED',
       'c_blog.CONTENT',
+      'c_blog.HTML',
       'c_blog.TOP'
       ,'c_user.EMAIL','c_user.NAME','c_user.LAST_NAME', 'c_user.IMAGE',
       'c_user_followed_blog.ID as BLOGFOLLOWEDSTATUS',

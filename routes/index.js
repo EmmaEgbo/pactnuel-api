@@ -37,9 +37,10 @@ router.route("/logout").post(userController.logout);
 
 
 
-
+ 
 //File API
 router.route("/uploadFile").post(middleware.checkUserAuth, upload.single('file'),fileController.uploadFile);
+router.route("/updateUserProfilePic").post(middleware.checkUserAuth, upload.single('file'), userController.updateProfilePic);
 router.route("/uploadProfilePic").post(middleware.checkUserAuth,fileController.uploadProfilePic);
 
 //category API
@@ -66,7 +67,11 @@ router.route("/getTags/:id").get(middleware.checkUserAuth,tagController.getTag);
 router.route("/addBlog").post(middleware.checkUserAuth,blogController.addBlog);
 router.route("/getAllBlog").post(middleware.adjustUserAuth,blogController.getAllBlog);
 router.route("/updateBlog/:id").put(middleware.checkUserAuth,blogController.updateBlog);
+router.route("/updateStoryStatus/:id").put(middleware.checkUserAuth,blogController.updateStoryStatus);
 router.route("/getBlog/:alias").get(middleware.adjustUserAuth,blogController.getBlog);
+
+router.route("/getAllBlogz").get(blogController.getAllBlogz);
+
 router.route("/relatedBlogs/:alias").get(middleware.adjustUserAuth,blogController.relatedBlogs);
 router.route("/searchBlogs/:searchText").get(middleware.adjustUserAuth,blogController.searchBlogs);
 router.route("/pickedBlogs").get(middleware.adjustUserAuth,blogController.pickedBlogs);

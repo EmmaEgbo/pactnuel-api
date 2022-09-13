@@ -1,9 +1,12 @@
 import helpers from "../helpers";
 import {config} from "dotenv";
+import {knex} from "../config/config";
 import userModel from '../model/userModel';
 import uniqid from 'uniqid';
 import followModel from "../model/followModel";
 const md5 = require('md5');
+import fileModel from '../model/fileModel';
+import sharp from 'sharp';
 
 config();
 
@@ -488,6 +491,43 @@ user.logout = async (req,res) => {
   }
   catch (e) {
     res.status(400).json(helpers.response("400", "error", "Something went wrong."));
+  }
+};
+
+user.updateProfilePic = async (req,res) => {
+  const { buffer, mimetype } = req.file;
+
+  try{
+    const filename = uniqid() + '.jpg';
+
+    await sharp(buffer)
+    .jpeg({ mozjpeg: true, quality: 70 })
+    .toFile("./files/" + filename);
+
+      let dataset = {
+        ID: uniqid(),
+        PATH:filename,
+        MIME_TYPE:mimetype 
+      }; 
+
+     await fileModel.createFile(req,dataset);
+    
+    let payload = req.body;
+    payload.IMAGE = "https://api.pactnuel.com/" + dataset.PATH;
+    payload.ID = req.mwValue.auth.ID;
+        const result = await knex('c_user').where({
+          ID: payload.ID
+        }).update({
+          IMAGE: payload.IMAGE 
+        });
+        if(result){
+          res.status(200).json(helpers.response("200", "success", "Your Image has been changed successfully!"));
+        }
+    else{
+      res.status(200).json(helpers.response("200", "error", "Validation Error!"));
+    }
+  }catch (e) {
+    res.status(400).json(helpers.response("400", "error", "Something went wrong.",e.message));
   }
 };
 
