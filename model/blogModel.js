@@ -222,6 +222,45 @@ exports.updateStoryStatus = async (context,id,dataset) => {
   }
 };
 
+exports.updateBlogCategory = async (context,id,dataset) => {
+  const trx =  await knex.transaction();
+  try {
+     //get previous blog categories
+     let currentCategories = dataset.CATEGORIES;
+     if(typeof (dataset.CATEGORIES) === "string"){
+       currentCategories = JSON.parse(currentCategories);
+     }
+     //category update
+     let previousCategories = await knex.select('c_blog_category.*').from('c_blog_category')
+       .where({ "c_blog_category.BLOG_ID": id});
+     for(let i=0; i< previousCategories.length; i++){
+       let checkExists = currentCategories.indexOf(previousCategories[i].CATEGORY_ID);
+       if(checkExists == -1){
+         await trx('c_blog_category').where({
+           ID: previousCategories[i].ID
+         }).delete();
+       }
+       else{
+         currentCategories.splice(checkExists,1)
+       }
+     }
+     for(let p = 0; p < currentCategories.length; p++){
+       await trx('c_blog_category').insert([{
+         ID: uniqid(),
+         BLOG_ID:id,
+         CATEGORY_ID: currentCategories[p].id,
+       }]);
+     }
+ 
+     trx.commit();
+     return { "ID":id };
+  }
+  catch (e) {
+    trx.rollback();
+    throw e;
+  }
+};
+
 exports.getAll = async (req, skip, take, filters) => {
   try {
     let data = {};

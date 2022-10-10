@@ -68,6 +68,7 @@ router.route("/addBlog").post(middleware.checkUserAuth,blogController.addBlog);
 router.route("/getAllBlog").post(middleware.adjustUserAuth,blogController.getAllBlog);
 router.route("/updateBlog/:id").put(middleware.checkUserAuth,blogController.updateBlog);
 router.route("/updateStoryStatus/:id").put(middleware.checkUserAuth,blogController.updateStoryStatus);
+router.route("/updateBlogCategory/:id").put(middleware.checkUserAuth,blogController.updateBlogCategory);
 router.route("/getBlog/:alias").get(middleware.adjustUserAuth,blogController.getBlog);
 
 router.route("/getAllBlogz").get(blogController.getAllBlogz);

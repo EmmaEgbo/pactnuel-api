@@ -141,7 +141,7 @@ blog.updateBlog = async (req,res) => {
     res.status(500).json(helpers.response("500", "error", "Something went wrong"));
   }
 
-};
+}; 
 
 blog.updateStoryStatus = async (req,res) => {
   try{
@@ -156,6 +156,36 @@ blog.updateStoryStatus = async (req,res) => {
     if(status) {
       payload.STATUS = status;
       let blogDetails = await blogModel.updateStoryStatus(req,req.params.id, payload);
+      if(blogDetails == null){
+        res.status(200).json(helpers.response("200", "error", "Database Error!"));
+      }
+      else{
+        res.status(200).json(helpers.response("201", "success", "blogDetails Updated!", {DATA:blogDetails}));
+      }
+    }
+    else{
+      res.status(200).json(helpers.response("200", "error", "Validation Error!"));
+    }
+  }catch(e){
+    console.log(e)
+    res.status(500).json(helpers.response("500", "error", "Something went wrong"));
+  }
+
+};
+
+blog.updateBlogCategory = async (req,res) => {
+  try{
+    if (!req.params.id) {
+      res.status(400);
+      res.end(); 
+      return;
+    }
+    let payload = req.body;
+    let category = payload.CATEGORIES.length > 0 ? payload.CATEGORIES : [];
+   
+    if(category) {
+      payload.CATEGORIES = category;
+      let blogDetails = await blogModel.updateBlogCategory(req,req.params.id, payload);
       if(blogDetails == null){
         res.status(200).json(helpers.response("200", "error", "Database Error!"));
       }
@@ -213,6 +243,7 @@ blog.markTop = async (req,res) => {
 
   }
   catch (e) {
+    console.log({ e })
     res.status(400).json(helpers.response("400", "error", "Something went wrong.",e.message));
   }
 
