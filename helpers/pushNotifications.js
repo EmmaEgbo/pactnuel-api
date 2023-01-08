@@ -1,6 +1,6 @@
 const { Expo } = require("expo-server-sdk");
 
-const sendPushNotification = async (targetExpoPushTokens, message, data, title="Pactnuel") => {
+const sendPushNotification = async (targetExpoPushTokens, message, data, title="Mootverse") => {
   const expo = new Expo();
 
   try {

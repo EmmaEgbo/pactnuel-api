@@ -203,8 +203,10 @@ const auth = {
 
 helpers.sendEmail = async function (tomailID, mailSubject, templateName, dataSet, attachments=[]) {
   const transporter = nodemailer.createTransport(mailGun(auth));
+  const date =  new Date().getFullYear();
   let emailData = {};
   emailData.data = dataSet;
+  emailData.date = date;
   ejs.renderFile(`templates/emails/${templateName}.ejs`,emailData, function (err, data) {
     if (!err) {
       const mailOptions = {

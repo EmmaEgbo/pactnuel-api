@@ -15,7 +15,7 @@ import upload from "../middleware/file-upload";
 const router = express.Router();
 
 // Routes
-router.route("/").get((req, res) => res.status(200).send("Hola!!! You are one step away from Pactnuel API"));
+router.route("/").get((req, res) => res.status(200).send("Hola!!! You are one step away from Mootverse API"));
 
 router.use(middleware.checkFormatKey);
 

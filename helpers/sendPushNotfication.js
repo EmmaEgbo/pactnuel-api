@@ -56,7 +56,7 @@ const notifyFollowers = async (senderID, blogDetails, ALIAS) => {
         if(push_tokens.length > 0) {
             const message = blogDetails.TITLE;
             const data = { ENTITY_ID: ALIAS, NOTIFICATION_TYPE: "article_post",  USER_FROM: senderID };
-            await sendPushNotfication(push_tokens, message, data, `Pactnuel - ${title}`)
+            await sendPushNotfication(push_tokens, message, data, `Mootverse - ${title}`)
         }
     } catch (error) {
         console.log({ error });
@@ -87,7 +87,7 @@ const notifyAllUsers = async (AdminID, blogDetails, type) => {
         // send push notification to all users
         console.log({ push_tokens });
         if(push_tokens.length > 0) {
-            const title = `Pactnuel - ${type} Story`
+            const title = `Mootverse - ${type} Story`
             const message = blogDetails.TITLE;
             const data = { ENTITY_ID: blogDetails.ALIAS, NOTIFICATION_TYPE: "article_post",  USER_FROM: AdminID };
             await sendPushNotfication(push_tokens, message, data, title)

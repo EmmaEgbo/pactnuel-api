@@ -1,10 +1,10 @@
-# Pactnuel API
+# Mootverse API
 
 Upgraded Admin platform built with **Express, NodeJs**
 
 ## Getting Started
 
-Proper management ofPactnuel API.
+Proper management of Mootverse API.
 
 ### Prerequisites
 
@@ -19,7 +19,7 @@ Good knowledge of
 
 At first clone this project from here -
 
-[Pactnuel API]()
+[Mootverse API]()
 
 After cloning
 

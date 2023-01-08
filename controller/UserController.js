@@ -54,7 +54,7 @@ user.register = async (req,res) => {
          //send email for verification
           let data = {"URL":process.env.FRONT_END_URL,"VERIFYLINK":process.env.FRONT_END_URL+'/verify?status=pending&email='+email+'&token='+token, "NAME": `${firstName} ${lastName}`}
           helpers.sendEmail([email],
-            `[Pactnuel] Verify your email address`,
+            `[Mootverse] Verify your email address`,
             'verification',data);
           res.status(200).json(helpers.response("200", "success", "Please check Your Mailbox!"));
         }
@@ -230,7 +230,7 @@ user.accountActivation = async (req,res) => {
             const { NAME, LAST_NAME, EMAIL } = userDetails;
             const data = {"NAME": `${NAME} ${LAST_NAME}`};
             helpers.sendEmail([email],
-              `Welcome to Pactnuel`,
+              `Welcome to Mootverse`,
               'welcome', data);
             helpers.subscribeToMailList(NAME, LAST_NAME, EMAIL);
             return res.status(200).json(helpers.response("200", "success", "Your account has been verified! Please login now!"));
@@ -272,13 +272,13 @@ user.forgotPasswordResendActivation = async (req,res) => {
           if(type == 'FORGOT'){
             data = {"URL":process.env.FRONT_END_URL,"VERIFYLINK":process.env.FRONT_END_URL+'/forgotpassword?status=pending&email='+email+'&token='+token, "NAME": `${NAME} ${LAST_NAME}`};
             helpers.sendEmail([email],
-              `[Pactnuel] Password Reset Request`,
+              `[Mootverse] Password Reset Request`,
               'passwordreset', data);
           }
           else {
             data = {"URL":process.env.FRONT_END_URL,"VERIFYLINK":process.env.FRONT_END_URL+'/verify?status=pending&email='+email+'&token='+token, "NAME": `${NAME} ${LAST_NAME}`};
             helpers.sendEmail([email],
-              `[Pactnuel] Verify your email address`,
+              `[Mootverse] Verify your email address`,
               'verification',data);
           }
 
@@ -301,6 +301,7 @@ user.forgotPasswordResendActivation = async (req,res) => {
 
   }
   catch (e) {
+    console.log("hhh", e)
     res.status(400).json(helpers.response("400", "error", "Something went wrong."));
   }
 
