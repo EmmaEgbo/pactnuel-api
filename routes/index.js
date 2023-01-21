@@ -34,7 +34,6 @@ router.route("/updateImage").put(middleware.checkUserAuth,userController.updateI
 router.route("/updatePushToken").put(middleware.checkUserAuth, userController.updatePushToken);
 router.route("/refreshToken").post(userController.refreshTokens);
 router.route("/logout").post(userController.logout);
-router.route("/bio").post(userController.updateBio);
 
 
 
