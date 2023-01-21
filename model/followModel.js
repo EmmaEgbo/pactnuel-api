@@ -135,6 +135,16 @@ exports.followAuthor = async (req ,id) => {
 
 };
 
+exports.deleteAllFollowCategory = async (req) => {
+  try{
+    let userId = req.mwValue.auth.ID;
+    await knex('c_user_followed_categories').where({ "USER_ID": userId }).delete();
+    return true;
+  } catch (e) {
+    return e;
+  }
+};
+
 exports.followCategory = async (req ,id) => {
   try{
     let userId = req.mwValue.auth.ID;

@@ -34,6 +34,7 @@ router.route("/updateImage").put(middleware.checkUserAuth,userController.updateI
 router.route("/updatePushToken").put(middleware.checkUserAuth, userController.updatePushToken);
 router.route("/refreshToken").post(userController.refreshTokens);
 router.route("/logout").post(userController.logout);
+router.route("/bio").post(userController.updateBio);
 
 
 
@@ -98,6 +99,7 @@ router.route("/follow/blog/:id").post(middleware.checkUserAuth,followController.
 router.route("/like/blog/:id").post(middleware.checkUserAuth,followController.likeBlog);
 router.route("/follow/publication/:id").post(middleware.checkUserAuth,followController.followPublication);
 router.route("/follow/author/:id").post(middleware.checkUserAuth,followController.followAuthor);
+router.route("/follow/category").post(middleware.checkUserAuth,followController.followMultipleCategory);
 router.route("/follow/category/:id").post(middleware.checkUserAuth,followController.followCategory);
 router.route("/follow/blog/:id").get(middleware.checkUserAuth,followController.getFollowedBlog);
 router.route("/like/blog/:id").get(followController.getBlogLikeCount);

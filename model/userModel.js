@@ -354,3 +354,18 @@ exports.getDetailById = async (id) => {
     throw e.message;
   }
 };
+
+exports.updateBio = async () => {
+  try {
+    const info = await knex('c_user').where({
+      BIO: "Hey there! I am on Pactnuel. I read and sometimes, I write. This is my short bio!"
+    }).update({ BIO: "Hey there! I am on Mootverse. I read and sometimes, I write. This is my short bio!"});
+
+    console.log(info)
+    return 'success'
+  }
+  catch (e) {
+    console.log(e.message);
+    throw e;
+  }
+};

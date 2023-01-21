@@ -7,6 +7,7 @@ import publicationModel from "../model/publicationModel";
 import userModel from "../model/userModel";
 import categoryModel from "../model/categoryModel";
 import { authorFollow } from "../helpers/sendPushNotfication";
+import { isArray } from "lodash";
 
 config();
 
@@ -147,6 +148,28 @@ follow.followCategory = async (req,res) => {
     res.status(400).json(helpers.response("400", "error", "Something went wrong."));
   }
 
+};
+
+follow.followMultipleCategory = async (req,res) => {
+  const interests = req.body.interests;
+  try {
+    if (!isArray(interests) || interests.length <= 0) {
+      return res.sendStatus(400);
+    }
+    await followModel.deleteAllFollowCategory(req);
+
+    for(let interest of interests) {
+      let getDetails = await categoryModel.getDetail(req, interest.ID);
+      if(getDetails != null )
+        await followModel.followCategory(req, interest.ID);
+    }
+
+    res.status(200).json(helpers.response("200", "success", "Followed Successfully!"));
+  }
+  catch (e) {
+    console.log(e)
+    res.status(400).json(helpers.response("400", "error", "Something went wrong."));
+  }
 };
 
 follow.getFollowedBlog = async (req,res) => {

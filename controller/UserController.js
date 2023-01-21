@@ -532,6 +532,17 @@ user.updateProfilePic = async (req,res) => {
   }
 };
 
+user.updateBio = async (req,res) => {
+  try{
+    let result = await userModel.updateBio();
+    if(result){
+      res.status(200).json(helpers.response("200", "success", "Bio updated successfully!"));
+    }
+  } catch (e) {
+    res.status(400).json(helpers.response("400", "error", "Something went wrong.",e.message));
+  }
+}
+
 
 
 
