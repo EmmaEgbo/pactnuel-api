@@ -9,6 +9,8 @@ import publicationController from "../controller/PublicationController";
 import followController from "../controller/FollowController";
 import commentController from "../controller/CommentsController";
 import notificationController from "../controller/NotificationController";
+import blogReportController from "../controller/ReportController";
+import blockController from "../controller/BlockController";
 import middleware from "../middleware";
 import upload from "../middleware/file-upload";
 
@@ -35,6 +37,10 @@ router.route("/updatePushToken").put(middleware.checkUserAuth, userController.up
 router.route("/refreshToken").post(userController.refreshTokens);
 router.route("/logout").post(userController.logout);
 
+//Report API
+router.route("/user/:id/block").put(middleware.adjustUserAuth, blockController.blockUser);
+router.route("/user/block").get(middleware.checkUserAuth, blockController.getBlockedUsers);
+
 
 
  
@@ -57,6 +63,10 @@ router.route("/notifications/unReadCount").get(middleware.adjustUserAuth, notifi
 router.route("/notification/:id/markAsRead").put(middleware.checkUserAuth, notificationController.markNotificationAsRead);
 router.route("/notification/markAllAsRead").put(middleware.adjustUserAuth, notificationController.markAllNotificationsAsRead);
 router.route("/notification/markAsReadWithEntity").put(middleware.adjustUserAuth, notificationController.markNotificationAsReadWithEntity);
+
+//Report API
+router.route("/blog/:id/report").put(middleware.adjustUserAuth, blogReportController.reportBlog);
+router.route("/blog/reports").get(middleware.checkUserAuth, blogReportController.getAllReports);
 
 //tags API
 router.route("/addUpdateTags").post(middleware.checkUserAuth,tagController.addUpdateTags);
