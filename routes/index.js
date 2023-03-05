@@ -38,10 +38,9 @@ router.route("/refreshToken").post(userController.refreshTokens);
 router.route("/logout").post(userController.logout);
 
 //Report API
+router.route("/user/:id/report").put(middleware.adjustUserAuth, blockController.reportUser);
 router.route("/user/:id/block").put(middleware.adjustUserAuth, blockController.blockUser);
 router.route("/user/block").get(middleware.checkUserAuth, blockController.getBlockedUsers);
-
-
 
  
 //File API
