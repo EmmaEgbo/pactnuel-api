@@ -10,9 +10,7 @@ blogReport.reportBlog  = async (req,res) => {
   const { id } = req.params;
   const { TYPE } = req.body;
 
-  console.log(TYPE);
-
-  try{
+  try {
     let payload = req.params;
     payload.USER_ID = req.mwValue.auth.ID;
     payload.BLOG_ID = id;

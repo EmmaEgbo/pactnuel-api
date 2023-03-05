@@ -52,5 +52,32 @@ blockController.getBlockedUsers = async (req,res) => {
 
 };
 
+blockController.reportUser  = async (req,res) => {
+  const { id } = req.params;
+  try{
+    let payload = req.params;
+    payload.USER_ID = req.mwValue.auth.ID;
+    payload.REPORTED_USER_ID = id;
+    const user_id = typeof (id) === "string" && id.trim().length > 0? id : false;
+
+    // validation
+    if(user_id) {
+        let getDetails = await userModel.getDetailById(id);
+        if(getDetails != null ) {
+            await blockModel.blockUser(payload);
+            return res.status(200).json(helpers.response("200", "success", "User reported successfully!"));
+        } else {
+            res.status(200).json(helpers.response("200", "error", "User does not exist!"));
+        }
+    }
+    else {
+      res.status(200).json(helpers.response("200", "error", "Validation Error!"));
+    }
+  }catch(e){
+    console.log("e", e)
+    res.status(500).json(helpers.response("500", "error", "Something went wrong"));
+  }
+};
+
 export default blockController;
 
