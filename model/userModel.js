@@ -182,10 +182,10 @@ const saveToken = async (token, userId, expires, blacklisted = false) => {
 };
 
 exports.generateAuthTokens = async (userData) => {
-  const accessTokenExpires = moment().add(1440, 'minutes');
+  const accessTokenExpires = moment().add(120, 'days');
   const accessToken = await generateToken(userData, accessTokenExpires);
 
-  const refreshTokenExpires = moment().add(182.5, 'days');
+  const refreshTokenExpires = moment().add(365, 'days');
   const refreshToken = await generateToken(userData, refreshTokenExpires, true);
   await saveToken(refreshToken, userData.ID, refreshTokenExpires);
 
