@@ -270,7 +270,7 @@ exports.getAll = async (req, skip, take, filters) => {
     }
     let query = knex.from('c_blog')
       .innerJoin('c_user', 'c_blog.AUTHOR_BY', 'c_user.ID')
-      .leftJoin('c_blog_category', 'c_blog_category.BLOG_ID', 'c_blog.ID')
+      .innerJoin('c_blog_category', 'c_blog_category.BLOG_ID', 'c_blog.ID')
       .leftJoin('c_publication', 'c_publication.ID', 'c_blog.PUBLICATION')
       .leftJoin('c_blog_tag', 'c_blog_tag.BLOG_ID', 'c_blog.ID')
       .leftJoin('c_user_followed_blog', function () {
@@ -300,6 +300,7 @@ exports.getAll = async (req, skip, take, filters) => {
       })
       .whereNot('c_blog.STATUS','DELETED')
       .orderBy('c_blog.CREATED_AT', 'desc');
+    query.whereNotNull('c_blog_category.CATEGORY_ID');
 
     if (filters) {
       query = blogModel.generateFilters(query, filters);
