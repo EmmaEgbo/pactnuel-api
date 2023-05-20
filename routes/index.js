@@ -33,6 +33,7 @@ router.route("/getAllUsers").post(middleware.checkFormatKey,userController.getAl
 router.route("/updateUser").put(middleware.checkUserAuth,userController.updateUser);
 router.route("/updatePassword").put(middleware.checkUserAuth,userController.updatePassword);
 router.route("/updateImage").put(middleware.checkUserAuth,userController.updateImage);
+router.route("/deleteUser").delete(middleware.checkUserAuth, userController.deleteUser);
 router.route("/updatePushToken").put(middleware.checkUserAuth, userController.updatePushToken);
 router.route("/refreshToken").post(userController.refreshTokens);
 router.route("/logout").post(userController.logout);
@@ -90,7 +91,7 @@ router.route("/markFeaturedBlog/:id").put(middleware.checkUserAuth,blogControlle
 router.route("/getViewsCount/:alias").get(blogController.getLikesCount);
 router.route("/getLikesCount/:alias").get(blogController.getViewsCount);
 router.route("/updateViewsCount/:alias").put(blogController.updateViewsCount);
-router.route("/updateLikesCount/:alias").put(blogController.updateLikesCount);
+router.route("/updateLikesCount/:alias").put(blogController.updateLikesCount); 
 
 
 //publication API

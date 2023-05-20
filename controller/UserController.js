@@ -91,6 +91,11 @@ user.login = async (req,res) => {
           if(userDetails.STATUS == 0){
             return res.status(200).json(helpers.response("200", "error", "Your Profile is not active."));
           }
+
+          if(userDetails.DELETED === 1){
+            return res.status(400).json(helpers.response("400", "error", "Account deleted"));
+          }
+
           else if(userDetails.PASSWORD.toUpperCase() == (md5(password)).toUpperCase()){
             let rowsData = {};
             rowsData.ID = userDetails.ID;
@@ -465,6 +470,16 @@ user.updatePushToken = async (req,res) => {
       return res.status(200).json(helpers.response("200", "error", "Validation Error!"));
     }
   }catch (e) {
+    return res.status(400).json(helpers.response("400", "error", "Something went wrong.", e.message));
+  }
+};
+
+user.deleteUser = async (req,res) => {
+  try{
+    const userID = req.mwValue.auth.ID;
+    await userModel.deleteUser(userID);
+    return res.status(200).json(helpers.response("200", "success", "User Account deleted successfully!"));
+  } catch (e) {
     return res.status(400).json(helpers.response("400", "error", "Something went wrong.", e.message));
   }
 };

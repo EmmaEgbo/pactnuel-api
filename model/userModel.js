@@ -354,3 +354,28 @@ exports.getDetailById = async (id) => {
     throw e.message;
   }
 };
+
+exports.deleteUser = async (id) => {
+  try {
+    const userID = uniqid();
+    await knex('c_user').where({
+      ID: id, DELETED: 1
+    }).update({ 
+      EMAIL: `deleted${userID}user@mootverse.com`,
+      NAME: "ANONYMOUS",
+      LAST_NAME: "USER",
+      IMAGE: null,
+      BIO: "",
+      PUSHTOKEN: null,
+      DELETED: 1,
+      STATUS: 0,
+      ALIAS: userID,
+      MOBILE: 0
+    });
+    return 'success'
+  }
+  catch (e) {
+    console.log(e.message)
+    throw e;
+  }
+};
