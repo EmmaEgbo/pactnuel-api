@@ -359,7 +359,7 @@ exports.deleteUser = async (id) => {
   try {
     const userID = uniqid();
     await knex('c_user').where({
-      ID: id, DELETED: 1
+      ID: id, DELETED: 0
     }).update({ 
       EMAIL: `deleted${userID}user@mootverse.com`,
       NAME: "ANONYMOUS",
