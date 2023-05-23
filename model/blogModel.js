@@ -270,10 +270,10 @@ exports.getAll = async (req, skip, take, filters) => {
     }
     const exclude = filters.exclude || null;
     const excludeStatus = exclude !== undefined && exclude === true;
-      
+
     let query = knex.from('c_blog')
       .innerJoin('c_user', 'c_blog.AUTHOR_BY', 'c_user.ID')
-      .join('c_blog_category', 'c_blog_category.BLOG_ID', 'c_blog.ID', excludeStatus ? "inner" : "left")
+      .leftJoin('c_blog_category', 'c_blog_category.BLOG_ID', 'c_blog.ID')
       .leftJoin('c_publication', 'c_publication.ID', 'c_blog.PUBLICATION')
       .leftJoin('c_blog_tag', 'c_blog_tag.BLOG_ID', 'c_blog.ID')
       .leftJoin('c_user_followed_blog', function () {
@@ -303,6 +303,42 @@ exports.getAll = async (req, skip, take, filters) => {
       })
       .whereNot('c_blog.STATUS','DELETED')
       .orderBy('c_blog.CREATED_AT', 'desc');
+
+    if(excludeStatus) {
+      query = knex.from('c_blog')
+        .innerJoin('c_user', 'c_blog.AUTHOR_BY', 'c_user.ID')
+        .innerJoin('c_blog_category', 'c_blog_category.BLOG_ID', 'c_blog.ID')
+        .leftJoin('c_publication', 'c_publication.ID', 'c_blog.PUBLICATION')
+        .leftJoin('c_blog_tag', 'c_blog_tag.BLOG_ID', 'c_blog.ID')
+        .leftJoin('c_user_followed_blog', function () {
+          this
+            .on('c_blog.ID', 'c_user_followed_blog.BLOG_ID')
+            .onIn('c_user_followed_blog.USER_ID',[userId])
+        })
+        .leftJoin('c_user_followed_categories', function () {
+          this
+            .on('c_blog_category.CATEGORY_ID', 'c_user_followed_categories.CATEGORY_ID')
+            .onIn('c_user_followed_categories.USER_ID',[userId])
+        })
+        .leftJoin('c_user_followed_publication', function () {
+          this
+            .on('c_publication.ID', 'c_user_followed_publication.PUBLICATION_ID')
+            .onIn('c_user_followed_publication.USER_ID',[userId])
+        })
+        .leftJoin('c_blog_likes', function () {
+          this
+            .on('c_blog.ID', 'c_blog_likes.BLOG_ID')
+            .onIn('c_blog_likes.USER_ID',[userId])
+        })
+        .leftJoin('c_user_followed_authors', function () {
+          this
+            .on('c_user.ID', 'c_user_followed_authors.AUTHOR_ID')
+            .onIn('c_user_followed_authors.USER_ID',[userId])
+        })
+        .whereNotNull('c_blog_category.CATEGORY_ID')
+        .whereNot('c_blog.STATUS','DELETED')
+        .orderBy('c_blog.CREATED_AT', 'desc');
+    }
 
     if (filters) {
       query = blogModel.generateFilters(query, filters);
@@ -345,15 +381,16 @@ exports.getAll = async (req, skip, take, filters) => {
 
 exports.getCount = async (req, filters) => {
   try {
+    const exclude = filters.exclude || null;
+    const excludeStatus = exclude !== undefined && exclude === true;
+
     let userId = 0;
     if(req.hasOwnProperty('mwValue')){
       userId = req.mwValue.auth.ID;
     }
-    const exclude = filters.exclude || null;
-    const excludeStatus = exclude !== undefined && exclude === true;
     let query = knex.from('c_blog')
       .innerJoin('c_user', 'c_blog.AUTHOR_BY', 'c_user.ID')
-      .join('c_blog_category', 'c_blog_category.BLOG_ID', 'c_blog.ID', excludeStatus ? "inner" : "left")
+      .leftJoin('c_blog_category', 'c_blog_category.BLOG_ID', 'c_blog.ID')
       .leftJoin('c_publication', 'c_publication.ID', 'c_blog.PUBLICATION')
       .leftJoin('c_blog_tag', 'c_blog_tag.BLOG_ID', 'c_blog.ID')
       .leftJoin('c_user_followed_blog', function () {
@@ -378,8 +415,36 @@ exports.getCount = async (req, filters) => {
       })
       .where({ });
 
-    if (filters) {
+      if(excludeStatus) {
+        query = knex.from('c_blog')
+        .innerJoin('c_user', 'c_blog.AUTHOR_BY', 'c_user.ID')
+        .innerJoin('c_blog_category', 'c_blog_category.BLOG_ID', 'c_blog.ID')
+        .leftJoin('c_publication', 'c_publication.ID', 'c_blog.PUBLICATION')
+        .leftJoin('c_blog_tag', 'c_blog_tag.BLOG_ID', 'c_blog.ID')
+        .leftJoin('c_user_followed_blog', function () {
+          this
+            .on('c_blog.ID', 'c_user_followed_blog.BLOG_ID')
+            .onIn('c_user_followed_blog.USER_ID',[userId])
+        })
+        .leftJoin('c_user_followed_categories', function () {
+          this
+            .on('c_blog_category.CATEGORY_ID', 'c_user_followed_categories.CATEGORY_ID')
+            .onIn('c_user_followed_categories.USER_ID',[userId])
+        })
+        .leftJoin('c_user_followed_publication', function () {
+          this
+            .on('c_publication.ID', 'c_user_followed_publication.PUBLICATION_ID')
+            .onIn('c_user_followed_publication.USER_ID',[userId])
+        })
+        .leftJoin('c_user_followed_authors', function () {
+          this
+            .on('c_user.ID', 'c_user_followed_authors.AUTHOR_ID')
+            .onIn('c_user_followed_authors.USER_ID',[userId])
+        })
+        .whereNotNull('c_blog_category.CATEGORY_ID')
+      }
 
+    if (filters) {
       query = blogModel.generateFilters(query, filters);
     }
     return await query.countDistinct({ 'COUNT': 'c_blog.ID' });
@@ -413,18 +478,12 @@ exports.generateFilters = function (query, filters) {
   let dateFields = ['CREATED_AT', 'UPDATED_AT'];
   let sort = filters.sortFilter;
   let tableName = query._single.table;
-  const exclude = filters.exclude || null;
   if(sort != undefined || sort != null){
     query.orderBy(sort.FIELD_NAME,sort.SORT_ORDER).orderBy(tableName+'.ID','DESC');
   }
   else{
     query.orderBy(tableName+'.CREATED_AT','DESC').orderBy(tableName+'.ID','DESC');
   }
-
-  if(exclude != undefined && exclude === true){
-    query.whereNotNull('c_blog_category.CATEGORY_ID');
-  }
-
   if(filters.search != undefined){
     for (let i = 0; i < filters.search.length; i++) {
       //check the fieldname with table name or not
