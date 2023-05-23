@@ -268,9 +268,12 @@ exports.getAll = async (req, skip, take, filters) => {
     if(req.hasOwnProperty('mwValue')){
       userId = req.mwValue.auth.ID;
     }
+    const exclude = filters.exclude || null;
+    const excludeStatus = exclude !== undefined && exclude === true;
+      
     let query = knex.from('c_blog')
       .innerJoin('c_user', 'c_blog.AUTHOR_BY', 'c_user.ID')
-      .innerJoin('c_blog_category', 'c_blog_category.BLOG_ID', 'c_blog.ID')
+      .join('c_blog_category', 'c_blog_category.BLOG_ID', 'c_blog.ID', excludeStatus ? "inner" : "left")
       .leftJoin('c_publication', 'c_publication.ID', 'c_blog.PUBLICATION')
       .leftJoin('c_blog_tag', 'c_blog_tag.BLOG_ID', 'c_blog.ID')
       .leftJoin('c_user_followed_blog', function () {
@@ -300,7 +303,6 @@ exports.getAll = async (req, skip, take, filters) => {
       })
       .whereNot('c_blog.STATUS','DELETED')
       .orderBy('c_blog.CREATED_AT', 'desc');
-    query.whereNotNull('c_blog_category.CATEGORY_ID');
 
     if (filters) {
       query = blogModel.generateFilters(query, filters);
@@ -347,9 +349,11 @@ exports.getCount = async (req, filters) => {
     if(req.hasOwnProperty('mwValue')){
       userId = req.mwValue.auth.ID;
     }
+    const exclude = filters.exclude || null;
+    const excludeStatus = exclude !== undefined && exclude === true;
     let query = knex.from('c_blog')
       .innerJoin('c_user', 'c_blog.AUTHOR_BY', 'c_user.ID')
-      .leftJoin('c_blog_category', 'c_blog_category.BLOG_ID', 'c_blog.ID')
+      .join('c_blog_category', 'c_blog_category.BLOG_ID', 'c_blog.ID', excludeStatus ? "inner" : "left")
       .leftJoin('c_publication', 'c_publication.ID', 'c_blog.PUBLICATION')
       .leftJoin('c_blog_tag', 'c_blog_tag.BLOG_ID', 'c_blog.ID')
       .leftJoin('c_user_followed_blog', function () {
@@ -409,12 +413,18 @@ exports.generateFilters = function (query, filters) {
   let dateFields = ['CREATED_AT', 'UPDATED_AT'];
   let sort = filters.sortFilter;
   let tableName = query._single.table;
+  const exclude = filters.exclude || null;
   if(sort != undefined || sort != null){
     query.orderBy(sort.FIELD_NAME,sort.SORT_ORDER).orderBy(tableName+'.ID','DESC');
   }
   else{
     query.orderBy(tableName+'.CREATED_AT','DESC').orderBy(tableName+'.ID','DESC');
   }
+
+  if(exclude != undefined && exclude === true){
+    query.whereNotNull('c_blog_category.CATEGORY_ID');
+  }
+
   if(filters.search != undefined){
     for (let i = 0; i < filters.search.length; i++) {
       //check the fieldname with table name or not
