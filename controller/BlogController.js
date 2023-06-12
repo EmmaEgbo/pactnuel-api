@@ -459,6 +459,17 @@ blog.pickedBlogs = async (req,res) => {
 
 };
 
+blog.getBlogs = async (req,res) => {
+  try {
+    const blogs = await knex('c_blog');
+    return res.json(blogs);
+  }
+  catch (e) {
+    console.log(e)
+    res.status(400).json(helpers.response("400", "error", "Something went wrong."));
+  };
+};
+
 blog.getAllBlogz = async (req,res) => {
   try {
     const blogs = await knex('c_blog').select('ID','CONTENT');
